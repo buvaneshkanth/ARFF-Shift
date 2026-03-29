@@ -8,7 +8,7 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@500&display=swap');
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 :root{
-  --bg:#f0ede8;--surface:#ffffff;--surface2:#f7f5f2;--surface3:#eceae6;
+  --bg:#f0ede8;--surface:#fff;--surface2:#f7f5f2;--surface3:#eceae6;
   --text:#1a1814;--text2:#6b6760;--text3:#9b9894;
   --border:rgba(0,0,0,0.09);--border2:rgba(0,0,0,0.16);
   --navy:#1b3a5c;--navy2:#0f2640;
@@ -19,50 +19,54 @@
   --purple-bg:#ede8fa;--purple-text:#4a30a8;
   --r:8px;--rlg:14px;
 }
-@media(prefers-color-scheme:dark){
-  :root{
-    --bg:#141210;--surface:#1e1c19;--surface2:#272420;--surface3:#312e2a;
-    --text:#f0ece6;--text2:#8a8580;--text3:#5a5650;
-    --border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.14);
-    --blue-bg:#0d2540;--blue-text:#6aaff5;--blue-border:#2a6aaa;
-    --amber-bg:#2a1800;--amber-text:#f0a840;--amber-border:#a06820;
-    --green-bg:#0a2018;--green-text:#50d080;--green-border:#1a7040;
-    --red-bg:#280a0a;--red-text:#f07070;--red-border:#802020;
-    --purple-bg:#180d38;--purple-text:#a080f8;
-  }
-}
+@media(prefers-color-scheme:dark){:root{
+  --bg:#141210;--surface:#1e1c19;--surface2:#272420;--surface3:#312e2a;
+  --text:#f0ece6;--text2:#8a8580;--text3:#5a5650;
+  --border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.14);
+  --blue-bg:#0d2540;--blue-text:#6aaff5;--blue-border:#2a6aaa;
+  --amber-bg:#2a1800;--amber-text:#f0a840;--amber-border:#a06820;
+  --green-bg:#0a2018;--green-text:#50d080;--green-border:#1a7040;
+  --red-bg:#280a0a;--red-text:#f07070;--red-border:#802020;
+  --purple-bg:#180d38;--purple-text:#a080f8;
+}}
 body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:14px;}
-.page{max-width:920px;margin:0 auto;padding:20px 16px 48px;}
+.page{max-width:960px;margin:0 auto;padding:20px 16px 60px;}
 .header{display:flex;align-items:center;gap:14px;margin-bottom:24px;padding-bottom:18px;border-bottom:1px solid var(--border2);}
 .logo{width:46px;height:46px;background:var(--navy);border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
 .logo svg{width:28px;height:28px;}
 .htext h1{font-size:20px;font-weight:600;letter-spacing:-0.3px;}
 .htext p{font-size:12px;color:var(--text2);margin-top:2px;}
 .hright{margin-left:auto;display:flex;gap:8px;align-items:center;}
-.btn{padding:7px 16px;border-radius:var(--r);border:1px solid var(--border2);font-size:13px;cursor:pointer;background:var(--surface);color:var(--text);font-family:'DM Sans',sans-serif;font-weight:500;transition:background 0.15s;}
+.btn{padding:7px 16px;border-radius:var(--r);border:1px solid var(--border2);font-size:13px;cursor:pointer;background:var(--surface);color:var(--text);font-family:'DM Sans',sans-serif;font-weight:500;transition:background .15s;}
 .btn:hover{background:var(--surface2);}
 .btn-navy{background:var(--navy);color:#fff;border-color:var(--navy);}
 .btn-navy:hover{background:var(--navy2);}
 .btn-green{background:var(--green-bg);color:var(--green-text);border-color:var(--green-border);}
 .btn-red{background:var(--red-bg);color:var(--red-text);border-color:var(--red-border);}
 .btn-sm{padding:3px 10px;font-size:11px;}
-.admin-bar{display:none;align-items:center;gap:10px;padding:10px 16px;background:var(--green-bg);border-radius:var(--r);margin-bottom:16px;border:1px solid var(--green-border);}
+.admin-bar{display:none;align-items:center;gap:10px;padding:10px 16px;background:var(--green-bg);border-radius:var(--r);margin-bottom:14px;border:1px solid var(--green-border);}
 .admin-dot{width:8px;height:8px;border-radius:50%;background:var(--green-text);flex-shrink:0;}
 .admin-bar span{flex:1;font-size:13px;color:var(--green-text);font-weight:500;}
 .badge{display:inline-flex;align-items:center;justify-content:center;min-width:18px;height:18px;background:var(--red-text);color:#fff;border-radius:20px;font-size:10px;font-weight:700;padding:0 5px;margin-left:5px;}
+.sync-bar{display:flex;align-items:center;gap:8px;padding:8px 14px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r);margin-bottom:14px;font-size:12px;color:var(--text2);}
+.sync-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.sync-dot.ok{background:var(--green-text);}
+.sync-dot.syncing{background:var(--amber-text);animation:pulse 1s infinite;}
+.sync-dot.err{background:var(--red-text);}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.3;}}
 .summary-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:22px;}
 @media(max-width:560px){.summary-grid{grid-template-columns:repeat(2,1fr);}}
 .stat-card{background:var(--surface);border-radius:var(--r);padding:14px 16px;border:1px solid var(--border);}
-.stat-label{font-size:11px;color:var(--text2);text-transform:uppercase;letter-spacing:0.6px;margin-bottom:6px;}
+.stat-label{font-size:11px;color:var(--text2);text-transform:uppercase;letter-spacing:.6px;margin-bottom:6px;}
 .stat-value{font-size:26px;font-weight:600;font-family:'DM Mono',monospace;}
-.tabs{display:flex;gap:0;border-bottom:1px solid var(--border2);margin-bottom:22px;overflow-x:auto;}
-.tab{padding:10px 18px;font-size:13px;cursor:pointer;border:none;background:none;color:var(--text2);font-family:'DM Sans',sans-serif;font-weight:500;border-bottom:3px solid transparent;white-space:nowrap;}
+.tabs{display:flex;border-bottom:1px solid var(--border2);margin-bottom:22px;overflow-x:auto;}
+.tab{padding:10px 15px;font-size:13px;cursor:pointer;border:none;background:none;color:var(--text2);font-family:'DM Sans',sans-serif;font-weight:500;border-bottom:3px solid transparent;white-space:nowrap;}
 .tab.active{color:var(--navy);border-bottom-color:var(--navy);}
 .date-nav{display:flex;align-items:center;gap:12px;margin-bottom:18px;}
 .nav-btn{width:32px;height:32px;border-radius:50%;border:1px solid var(--border2);background:var(--surface);cursor:pointer;font-size:18px;color:var(--text);display:flex;align-items:center;justify-content:center;}
 .nav-btn:hover{background:var(--surface2);}
 .date-label{font-size:15px;font-weight:600;}
-.shifts-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:22px;}
+.shifts-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:18px;}
 @media(max-width:600px){.shifts-grid{grid-template-columns:1fr;}}
 .shift-card{border:1px solid var(--border);border-radius:var(--rlg);padding:16px;background:var(--surface);}
 .shift-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
@@ -83,10 +87,14 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .p-leave{background:var(--red-bg);color:var(--red-text);}
 .p-ot{background:var(--amber-bg);color:var(--amber-text);}
 .p-off{background:var(--surface3);color:var(--text2);border:1px solid var(--border);}
+.p-dayoff{background:var(--blue-bg);color:var(--blue-text);}
 .p-pending{background:var(--purple-bg);color:var(--purple-text);}
-.section-title{font-size:12px;color:var(--text2);margin-bottom:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;}
+/* Below-shift groups */
+.group-block{margin-bottom:16px;}
+.group-heading{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;padding-bottom:4px;}
 .chip-list{display:flex;flex-wrap:wrap;gap:7px;}
 .chip{display:flex;align-items:center;gap:6px;padding:5px 11px;border-radius:20px;border:1px solid var(--border);font-size:12px;color:var(--text2);background:var(--surface2);}
+/* Requests */
 .requests-panel{background:var(--surface);border:1px solid var(--border);border-radius:var(--rlg);padding:16px;margin-bottom:22px;}
 .req-item{display:flex;align-items:flex-start;gap:12px;padding:12px;border-radius:10px;background:var(--surface2);margin-bottom:8px;border-left:3px solid var(--purple-text);}
 .req-item:last-child{margin-bottom:0;}
@@ -95,51 +103,56 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .req-detail{font-size:12px;color:var(--text2);margin-top:3px;}
 .req-note{font-size:11px;color:var(--text3);margin-top:4px;font-style:italic;}
 .req-actions{display:flex;gap:6px;flex-shrink:0;}
+/* Calendar */
 .cal-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:5px;}
 .cal-dh{text-align:center;font-size:11px;color:var(--text2);padding:4px 0;font-weight:500;}
 .cal-day{text-align:center;padding:7px 2px;border-radius:8px;font-size:12px;cursor:pointer;transition:opacity .15s;}
 .cal-day:hover{opacity:.75;}
 .cal-legend{margin-top:12px;display:flex;gap:16px;font-size:12px;color:var(--text2);}
 .cal-dot{display:inline-block;width:10px;height:10px;border-radius:50%;}
-.crew-search{padding:9px 13px;border:1px solid var(--border2);border-radius:var(--r);font-size:14px;background:var(--surface);color:var(--text);font-family:'DM Sans',sans-serif;width:100%;max-width:340px;margin-bottom:16px;}
-table.ctable{width:100%;border-collapse:collapse;}
-table.ctable th{text-align:left;font-size:11px;color:var(--text2);padding:6px 8px;font-weight:600;border-bottom:1px solid var(--border2);text-transform:uppercase;letter-spacing:0.4px;}
-table.ctable td{padding:10px 8px;border-bottom:1px solid var(--border);vertical-align:middle;}
-.crew-detail{font-size:11px;color:var(--text2);margin-top:2px;}
-.crew-detail a{color:var(--blue-text);text-decoration:none;}
-.ot-count{font-family:'DM Mono',monospace;font-size:13px;font-weight:600;}
+/* Tracker */
 .ot-select{padding:7px 12px;border:1px solid var(--border2);border-radius:var(--r);font-size:13px;background:var(--surface);color:var(--text);font-family:'DM Sans',sans-serif;cursor:pointer;}
-.ot-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:12px;}
-.ot-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--rlg);padding:14px 16px;}
-.ot-card-header{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
-.ot-bars{flex:1;}
-.ot-name{font-size:13px;font-weight:600;margin-bottom:1px;}
-.ot-empid{font-size:10px;color:var(--text2);}
-.ot-row{display:flex;align-items:center;gap:8px;margin-bottom:4px;}
-.ot-row-label{font-size:10px;color:var(--text2);width:76px;flex-shrink:0;}
-.ot-bar-wrap{flex:1;height:6px;background:var(--surface3);border-radius:3px;overflow:hidden;}
-.ot-bar{height:100%;border-radius:3px;transition:width 0.4s;}
-.ot-num{font-family:'DM Mono',monospace;font-size:11px;font-weight:600;min-width:20px;text-align:right;}
-.ot-view-btn{margin-top:10px;width:100%;text-align:center;padding:5px 0;font-size:11px;border-radius:6px;border:1px solid var(--border2);background:none;cursor:pointer;color:var(--navy);font-weight:600;font-family:'DM Sans',sans-serif;}
-.ot-view-btn:hover{background:var(--surface2);}
-.ot-history-list{max-height:320px;overflow-y:auto;margin-top:4px;}
-.ot-hist-item{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:8px;background:var(--surface2);margin-bottom:6px;}
-.ot-hist-date{font-family:'DM Mono',monospace;font-size:13px;font-weight:600;color:var(--navy);min-width:110px;}
-.ot-hist-shift{font-size:12px;color:var(--text2);}
-.ot-hist-note{font-size:11px;color:var(--text3);font-style:italic;flex:1;text-align:right;}
-.ot-month-group{font-size:11px;color:var(--text2);font-weight:600;text-transform:uppercase;letter-spacing:0.5px;margin:10px 0 6px;padding-bottom:4px;border-bottom:1px solid var(--border);}
-.ot-month-group:first-child{margin-top:0;}
+.tracker-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:12px;}
+.tracker-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--rlg);padding:14px 16px;}
+.tc-header{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+.tc-name{font-size:13px;font-weight:600;margin-bottom:1px;}
+.tc-empid{font-size:10px;color:var(--text2);}
+.tc-row{display:flex;align-items:center;gap:8px;margin-bottom:4px;}
+.tc-label{font-size:10px;color:var(--text2);width:76px;flex-shrink:0;}
+.tc-bar-wrap{flex:1;height:6px;background:var(--surface3);border-radius:3px;overflow:hidden;}
+.tc-bar{height:100%;border-radius:3px;transition:width .4s;}
+.tc-num{font-family:'DM Mono',monospace;font-size:11px;font-weight:600;min-width:20px;text-align:right;}
+.tc-btn{margin-top:10px;width:100%;text-align:center;padding:5px 0;font-size:11px;border-radius:6px;border:1px solid var(--border2);background:none;cursor:pointer;color:var(--navy);font-weight:600;font-family:'DM Sans',sans-serif;}
+.tc-btn:hover{background:var(--surface2);}
+/* History modals */
+.hist-list{max-height:320px;overflow-y:auto;margin-top:4px;}
+.hist-item{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:8px;background:var(--surface2);margin-bottom:6px;}
+.hist-date{font-family:'DM Mono',monospace;font-size:12px;font-weight:600;color:var(--navy);min-width:130px;}
+.hist-label{font-size:12px;color:var(--text2);}
+.hist-note{font-size:11px;color:var(--text3);font-style:italic;flex:1;text-align:right;}
+.hist-group{font-size:11px;color:var(--text2);font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin:10px 0 6px;padding-bottom:4px;border-bottom:1px solid var(--border);}
+.hist-group:first-child{margin-top:0;}
 .filter-row{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;}
 .filter-chip{padding:4px 12px;border-radius:20px;border:1px solid var(--border2);font-size:12px;cursor:pointer;background:var(--surface2);color:var(--text2);font-family:'DM Sans',sans-serif;}
 .filter-chip.active{background:var(--navy);color:#fff;border-color:var(--navy);}
+/* Crew */
+.crew-search{padding:9px 13px;border:1px solid var(--border2);border-radius:var(--r);font-size:14px;background:var(--surface);color:var(--text);font-family:'DM Sans',sans-serif;width:100%;max-width:340px;margin-bottom:16px;}
+table.ctable{width:100%;border-collapse:collapse;}
+table.ctable th{text-align:left;font-size:11px;color:var(--text2);padding:6px 8px;font-weight:600;border-bottom:1px solid var(--border2);text-transform:uppercase;letter-spacing:.4px;}
+table.ctable td{padding:10px 8px;border-bottom:1px solid var(--border);vertical-align:middle;}
+.crew-detail{font-size:11px;color:var(--text2);margin-top:2px;}
+.crew-detail a{color:var(--blue-text);text-decoration:none;}
+.mono{font-family:'DM Mono',monospace;font-size:13px;font-weight:600;}
+/* Portal */
 .portal-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--rlg);padding:20px;max-width:480px;margin:0 auto;}
 .portal-header{text-align:center;margin-bottom:20px;}
 .portal-header h2{font-size:18px;font-weight:600;}
 .portal-header p{font-size:13px;color:var(--text2);margin-top:4px;}
-.my-status-box{background:var(--surface2);border-radius:var(--r);padding:14px;margin-bottom:16px;border:1px solid var(--border);}
-.my-status-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;font-size:13px;}
-.my-status-row:last-child{margin-bottom:0;}
-.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:300;align-items:center;justify-content:center;padding:16px;}
+.status-box{background:var(--surface2);border-radius:var(--r);padding:14px;margin-bottom:16px;border:1px solid var(--border);}
+.status-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;font-size:13px;}
+.status-row:last-child{margin-bottom:0;}
+/* Overlays */
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:300;align-items:center;justify-content:center;padding:16px;}
 .overlay.open{display:flex;}
 .modal{background:var(--surface);border-radius:var(--rlg);padding:24px;width:440px;max-width:100%;border:1px solid var(--border2);}
 .modal h2{font-size:17px;font-weight:600;margin-bottom:18px;}
@@ -149,53 +162,30 @@ table.ctable td{padding:10px 8px;border-bottom:1px solid var(--border);vertical-
 textarea.fi{resize:vertical;min-height:72px;}
 .mactions{display:flex;gap:10px;justify-content:flex-end;margin-top:20px;}
 .errmsg{color:var(--red-text);font-size:12px;margin-top:5px;}
-.success-msg{color:var(--green-text);font-size:13px;text-align:center;padding:12px;background:var(--green-bg);border-radius:var(--r);margin-top:12px;font-weight:500;}
-
-/* SYNC UI */
-.sync-bar{display:flex;align-items:center;gap:8px;padding:8px 14px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r);margin-bottom:14px;font-size:12px;color:var(--text2);}
-.sync-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
-.sync-dot.ok{background:var(--green-text);}
-.sync-dot.syncing{background:var(--amber-text);animation:pulse 1s infinite;}
-.sync-dot.err{background:var(--red-text);}
-@keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.3;}}
+.ok-msg{color:var(--green-text);font-size:13px;text-align:center;padding:12px;background:var(--green-bg);border-radius:var(--r);margin-top:12px;font-weight:500;}
+/* Loading */
 .loading-screen{position:fixed;inset:0;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:999;gap:16px;}
-.loading-screen .logo-big{width:64px;height:64px;background:var(--navy);border-radius:16px;display:flex;align-items:center;justify-content:center;}
-.loading-screen .logo-big svg{width:38px;height:38px;}
-.loading-screen p{font-size:14px;color:var(--text2);}
-.spinner{width:24px;height:24px;border:3px solid var(--border2);border-top-color:var(--navy);border-radius:50%;animation:spin 0.7s linear infinite;}
+.logo-big{width:64px;height:64px;background:var(--navy);border-radius:16px;display:flex;align-items:center;justify-content:center;}
+.spinner{width:24px;height:24px;border:3px solid var(--border2);border-top-color:var(--navy);border-radius:50%;animation:spin .7s linear infinite;}
 @keyframes spin{to{transform:rotate(360deg);}}
 </style>
 </head>
 <body>
 
-<!-- LOADING SCREEN -->
 <div class="loading-screen" id="loadingScreen">
-  <div class="logo-big">
-    <svg viewBox="0 0 24 24" fill="none">
-      <path d="M3 18l4-8 4 4 4-6 4 10" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-      <circle cx="19" cy="5" r="2" fill="#f90"/>
-    </svg>
-  </div>
+  <div class="logo-big"><svg viewBox="0 0 24 24" fill="none"><path d="M3 18l4-8 4 4 4-6 4 10" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="19" cy="5" r="2" fill="#f90"/></svg></div>
   <div style="font-size:18px;font-weight:600;">ARFF Shift Management</div>
   <div class="spinner"></div>
-  <p id="loadingMsg">Loading latest data...</p>
+  <p id="loadingMsg" style="font-size:13px;color:#888;">Connecting to cloud...</p>
 </div>
 
 <div class="page" id="mainApp" style="display:none;">
   <div class="header">
-    <div class="logo">
-      <svg viewBox="0 0 24 24" fill="none">
-        <path d="M3 18l4-8 4 4 4-6 4 10" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        <circle cx="19" cy="5" r="2" fill="#f90"/>
-      </svg>
-    </div>
-    <div class="htext">
-      <h1>ARFF Shift Management</h1>
-      <p>Airport Rescue &amp; Firefighting — Thoothukudi (TUT)</p>
-    </div>
+    <div class="logo"><svg viewBox="0 0 24 24" fill="none"><path d="M3 18l4-8 4 4 4-6 4 10" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="19" cy="5" r="2" fill="#f90"/></svg></div>
+    <div class="htext"><h1>ARFF Shift Management</h1><p>Airport Rescue &amp; Firefighting — Thoothukudi (TUT)</p></div>
     <div class="hright">
       <button class="btn" onclick="openTab('portal')">My Shift ↗</button>
-      <button class="btn btn-navy" id="loginBtn" onclick="document.getElementById('loginModal').classList.add('open')">Admin login</button>
+      <button class="btn btn-navy" id="loginBtn" onclick="openModal('loginModal')">Admin login</button>
     </div>
   </div>
 
@@ -205,11 +195,10 @@ textarea.fi{resize:vertical;min-height:72px;}
     <button class="btn btn-red btn-sm" onclick="doLogout()">Logout</button>
   </div>
 
-  <!-- SYNC STATUS BAR -->
-  <div class="sync-bar" id="syncBar">
+  <div class="sync-bar">
     <div class="sync-dot ok" id="syncDot"></div>
-    <span id="syncMsg">Data synced — all crew see the same roster</span>
-    <button class="btn btn-sm" style="margin-left:auto;" onclick="loadFromCloud()">Refresh</button>
+    <span id="syncMsg">Data synced</span>
+    <button class="btn btn-sm" style="margin-left:auto;" onclick="loadFromCloud().then(refreshAll)">Refresh</button>
   </div>
 
   <div class="summary-grid" id="summaryGrid"></div>
@@ -219,11 +208,11 @@ textarea.fi{resize:vertical;min-height:72px;}
     <button class="tab"        id="tab-btn-requests" onclick="openTab('requests')">Requests<span id="reqBadge" style="display:none" class="badge">0</span></button>
     <button class="tab"        id="tab-btn-calendar" onclick="openTab('calendar')">Calendar</button>
     <button class="tab"        id="tab-btn-ot"       onclick="openTab('ot')">Overtime tracker</button>
+    <button class="tab"        id="tab-btn-leave"    onclick="openTab('leave')">Leave tracker</button>
     <button class="tab"        id="tab-btn-crew"     onclick="openTab('crew')">Crew directory</button>
     <button class="tab"        id="tab-btn-portal"   onclick="openTab('portal')">My shift</button>
   </div>
 
-  <!-- TODAY -->
   <div id="pane-today">
     <div class="date-nav">
       <button class="nav-btn" onclick="changeDay(-1)">&#8249;</button>
@@ -234,22 +223,14 @@ textarea.fi{resize:vertical;min-height:72px;}
       </div>
     </div>
     <div class="shifts-grid" id="shiftsGrid"></div>
-    <div style="margin-top:4px;">
-      <div class="section-title">Unassigned — pending admin allocation</div>
-      <div class="chip-list" id="unassignedList"></div>
-    </div>
+    <div id="belowShifts"></div>
   </div>
 
-  <!-- REQUESTS -->
   <div id="pane-requests" style="display:none">
-    <div style="margin-bottom:16px;">
-      <div style="font-size:15px;font-weight:600;">Pending crew requests</div>
-      <div style="font-size:12px;color:var(--text2);margin-top:2px;">Review and approve or reject each request</div>
-    </div>
+    <div style="margin-bottom:16px;"><div style="font-size:15px;font-weight:600;">Pending crew requests</div><div style="font-size:12px;color:var(--text2);margin-top:2px;">Review and approve or reject each request</div></div>
     <div id="requestsList"></div>
   </div>
 
-  <!-- CALENDAR -->
   <div id="pane-calendar" style="display:none">
     <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px;">
       <button class="nav-btn" onclick="calChangeMonth(-1)">&#8249;</button>
@@ -263,47 +244,39 @@ textarea.fi{resize:vertical;min-height:72px;}
     </div>
   </div>
 
-  <!-- OT TRACKER -->
   <div id="pane-ot" style="display:none">
     <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:18px;">
-      <div>
-        <div style="font-size:15px;font-weight:600;">Overtime tracker</div>
-        <div style="font-size:12px;color:var(--text2);margin-top:2px;">Click "View dates" on any card to see full OT history</div>
-      </div>
-      <div style="display:flex;align-items:center;gap:8px;">
-        <select class="ot-select" id="otFilter" onchange="renderOT()">
-          <option value="all">All crew</option>
-          <option value="hasOT">Has OT only</option>
-        </select>
-        <select class="ot-select" id="otSort" onchange="renderOT()">
-          <option value="name">Sort by name</option>
-          <option value="month">Sort by month OT</option>
-          <option value="alltime">Sort by all-time OT</option>
-        </select>
+      <div><div style="font-size:15px;font-weight:600;">Overtime tracker</div><div style="font-size:12px;color:var(--text2);margin-top:2px;">Admin: click "View dates" for full OT history per employee</div></div>
+      <div style="display:flex;gap:8px;">
+        <select class="ot-select" id="otFilter" onchange="renderOT()"><option value="all">All crew</option><option value="hasOT">Has OT only</option></select>
+        <select class="ot-select" id="otSort" onchange="renderOT()"><option value="name">Sort by name</option><option value="month">Sort by month OT</option><option value="alltime">Sort by all-time OT</option></select>
       </div>
     </div>
-    <div class="ot-grid" id="otGrid"></div>
+    <div class="tracker-grid" id="otGrid"></div>
   </div>
 
-  <!-- CREW DIRECTORY -->
+  <div id="pane-leave" style="display:none">
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:18px;">
+      <div><div style="font-size:15px;font-weight:600;">Leave tracker</div><div style="font-size:12px;color:var(--text2);margin-top:2px;">Admin: click "View dates" for full leave history per employee</div></div>
+      <div style="display:flex;gap:8px;">
+        <select class="ot-select" id="leaveFilter" onchange="renderLeave()"><option value="all">All crew</option><option value="hasLeave">Has leave only</option></select>
+        <select class="ot-select" id="leaveSort" onchange="renderLeave()"><option value="name">Sort by name</option><option value="month">Sort by month leave</option><option value="alltime">Sort by all-time leave</option></select>
+      </div>
+    </div>
+    <div class="tracker-grid" id="leaveGrid"></div>
+  </div>
+
   <div id="pane-crew" style="display:none">
     <input class="crew-search" type="text" placeholder="Search name, ID, email, phone..." id="crewSearch" oninput="renderCrew()">
     <div id="crewTable"></div>
   </div>
 
-  <!-- MY SHIFT PORTAL -->
   <div id="pane-portal" style="display:none">
     <div class="portal-card">
-      <div class="portal-header">
-        <h2>Employee self-service</h2>
-        <p>Enter your Employee ID to view your shift or submit a request</p>
-      </div>
+      <div class="portal-header"><h2>Employee self-service</h2><p>Enter your Employee ID to view your shift or submit a request</p></div>
       <div class="fg">
         <label class="fl">Employee ID</label>
-        <div style="display:flex;gap:8px;">
-          <input class="fi" type="text" id="portalEmpId" placeholder="e.g. 10001837" maxlength="10" onkeydown="if(event.key==='Enter')portalLookup()">
-          <button class="btn btn-navy" onclick="portalLookup()">Look up</button>
-        </div>
+        <div style="display:flex;gap:8px;"><input class="fi" type="text" id="portalEmpId" placeholder="e.g. 10001837" maxlength="10" onkeydown="if(event.key==='Enter')portalLookup()"><button class="btn btn-navy" onclick="portalLookup()">Look up</button></div>
         <div class="errmsg" id="portalErr" style="display:none">Employee ID not found. Please check and try again.</div>
       </div>
       <div id="portalContent" style="display:none"></div>
@@ -311,398 +284,291 @@ textarea.fi{resize:vertical;min-height:72px;}
   </div>
 </div>
 
-<!-- LOGIN MODAL -->
-<div class="overlay" id="loginModal">
-  <div class="modal">
-    <h2>Admin login</h2>
-    <div class="fg">
-      <label class="fl">Password</label>
-      <input type="password" class="fi" id="pwInput" placeholder="Enter admin password" onkeydown="if(event.key==='Enter')doLogin()">
-      <div class="errmsg" id="pwError" style="display:none">Incorrect password.</div>
-    </div>
-    <div class="mactions">
-      <button class="btn" onclick="closeModal('loginModal')">Cancel</button>
-      <button class="btn btn-navy" onclick="doLogin()">Login</button>
-    </div>
-  </div>
-</div>
+<!-- MODALS -->
+<div class="overlay" id="loginModal"><div class="modal">
+  <h2>Admin login</h2>
+  <div class="fg"><label class="fl">Password</label><input type="password" class="fi" id="pwInput" placeholder="Enter admin password" onkeydown="if(event.key==='Enter')doLogin()"><div class="errmsg" id="pwError" style="display:none">Incorrect password.</div></div>
+  <div class="mactions"><button class="btn" onclick="closeModal('loginModal')">Cancel</button><button class="btn btn-navy" onclick="doLogin()">Login</button></div>
+</div></div>
 
-<!-- ASSIGN MODAL -->
-<div class="overlay" id="assignModal">
-  <div class="modal">
-    <h2 id="assignTitle">Edit crew assignment</h2>
-    <div class="fg">
-      <label class="fl">Crew member</label>
-      <select class="fi" id="assignPerson"></select>
-    </div>
-    <div class="fg">
-      <label class="fl">Shift</label>
-      <select class="fi" id="assignShift">
-        <option value="morning">Morning (06:00 – 14:00)</option>
-        <option value="evening">Evening (14:00 – 22:00)</option>
-        <option value="off">Day off</option>
-      </select>
-    </div>
-    <div class="fg">
-      <label class="fl">Status</label>
-      <select class="fi" id="assignStatus">
-        <option value="duty">On duty</option>
-        <option value="leave">On leave</option>
-        <option value="ot">Overtime</option>
-      </select>
-    </div>
-    <div class="mactions">
-      <button class="btn" onclick="closeModal('assignModal')">Cancel</button>
-      <button class="btn btn-navy" onclick="saveAssign()">Save</button>
-    </div>
+<div class="overlay" id="assignModal"><div class="modal">
+  <h2 id="assignTitle">Assign crew member</h2>
+  <div class="fg"><label class="fl">Crew member</label><select class="fi" id="assignPerson"></select></div>
+  <div class="fg">
+    <label class="fl">Shift</label>
+    <select class="fi" id="assignShift" onchange="onAssignShiftChange()">
+      <option value="morning">Morning (06:00 – 14:00)</option>
+      <option value="evening">Evening (14:00 – 22:00)</option>
+      <option value="none">None of the above</option>
+    </select>
   </div>
-</div>
+  <div class="fg" id="assignStatusGroup">
+    <label class="fl">Status</label>
+    <select class="fi" id="assignStatus">
+      <option value="duty">On duty</option>
+      <option value="leave">On leave</option>
+      <option value="ot">Overtime</option>
+      <option value="dayoff">Day off</option>
+    </select>
+  </div>
+  <div class="mactions"><button class="btn" onclick="closeModal('assignModal')">Cancel</button><button class="btn btn-navy" onclick="saveAssign()">Save</button></div>
+</div></div>
 
-<!-- EMPLOYEE REQUEST MODAL -->
-<div class="overlay" id="requestModal">
-  <div class="modal">
-    <h2>Submit a request</h2>
-    <div style="background:var(--surface2);border-radius:var(--r);padding:10px 14px;margin-bottom:16px;font-size:13px;" id="reqEmployeeInfo"></div>
-    <div class="fg">
-      <label class="fl">Date</label>
-      <input type="date" class="fi" id="reqDate" onchange="updateOTShiftOptions()">
-    </div>
-    <div class="fg">
-      <label class="fl">Request type</label>
-      <select class="fi" id="reqType" onchange="updateOTShiftOptions()">
-        <option value="shift">Preferred shift change</option>
-        <option value="leave">Leave request</option>
-        <option value="ot">Overtime request (work both shifts)</option>
-      </select>
-    </div>
-    <div class="fg" id="reqShiftGroup">
-      <label class="fl" id="reqShiftLabel">Preferred shift</label>
-      <select class="fi" id="reqShift">
-        <option value="morning">Morning (06:00 – 14:00)</option>
-        <option value="evening">Evening (14:00 – 22:00)</option>
-      </select>
-    </div>
-    <div class="fg">
-      <label class="fl">Reason / note</label>
-      <textarea class="fi" id="reqNote" placeholder="Briefly describe your reason..."></textarea>
-    </div>
-    <div class="mactions">
-      <button class="btn" onclick="closeModal('requestModal')">Cancel</button>
-      <button class="btn btn-navy" onclick="submitRequest()">Submit request</button>
-    </div>
-    <div class="success-msg" id="reqSuccess" style="display:none">Your request has been submitted! The admin will review it shortly.</div>
+<div class="overlay" id="requestModal"><div class="modal">
+  <h2>Submit a request</h2>
+  <div style="background:var(--surface2);border-radius:var(--r);padding:10px 14px;margin-bottom:16px;font-size:13px;" id="reqEmployeeInfo"></div>
+  <div class="fg"><label class="fl">Date</label><input type="date" class="fi" id="reqDate" onchange="updateReqOpts()"></div>
+  <div class="fg"><label class="fl">Request type</label>
+    <select class="fi" id="reqType" onchange="updateReqOpts()">
+      <option value="shift">Preferred shift change</option>
+      <option value="leave">Leave request</option>
+      <option value="ot">Overtime request (work both shifts)</option>
+    </select>
   </div>
-</div>
+  <div class="fg" id="reqShiftGroup"><label class="fl" id="reqShiftLabel">Preferred shift</label>
+    <select class="fi" id="reqShift"><option value="morning">Morning (06:00–14:00)</option><option value="evening">Evening (14:00–22:00)</option></select>
+  </div>
+  <div class="fg"><label class="fl">Reason / note</label><textarea class="fi" id="reqNote" placeholder="Briefly describe your reason..."></textarea></div>
+  <div class="mactions"><button class="btn" onclick="closeModal('requestModal')">Cancel</button><button class="btn btn-navy" onclick="submitRequest()">Submit request</button></div>
+  <div class="ok-msg" id="reqSuccess" style="display:none">Your request has been submitted! The admin will review it shortly.</div>
+</div></div>
 
-<!-- OT HISTORY MODAL -->
-<div class="overlay" id="otHistModal">
-  <div class="modal" style="width:500px;">
-    <div style="display:flex;align-items:center;gap:12px;margin-bottom:6px;">
-      <div class="avatar" id="otHistAvatar" style="width:38px;height:38px;font-size:12px;flex-shrink:0;"></div>
-      <div>
-        <h2 style="margin-bottom:0;" id="otHistName">OT History</h2>
-        <div style="font-size:12px;color:var(--text2);" id="otHistSub"></div>
-      </div>
-      <div style="margin-left:auto;text-align:right;">
-        <div style="font-size:11px;color:var(--text2);">This month</div>
-        <div style="font-family:'DM Mono',monospace;font-size:20px;font-weight:600;color:var(--amber-text);" id="otHistMonth">0</div>
-      </div>
-      <div style="text-align:right;padding-left:12px;border-left:1px solid var(--border);">
-        <div style="font-size:11px;color:var(--text2);">All time</div>
-        <div style="font-family:'DM Mono',monospace;font-size:20px;font-weight:600;color:var(--text2);" id="otHistAll">0</div>
-      </div>
-    </div>
-    <div class="filter-row" id="otHistFilters"></div>
-    <div style="font-size:12px;color:var(--text2);margin-bottom:8px;" id="otHistCount"></div>
-    <div class="ot-history-list" id="otHistList"></div>
-    <div class="mactions" style="margin-top:16px;">
-      <button class="btn btn-navy" onclick="closeModal('otHistModal')">Close</button>
-    </div>
+<div class="overlay" id="otHistModal"><div class="modal" style="width:500px;">
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px;">
+    <div class="avatar" id="otHistAv" style="width:38px;height:38px;font-size:12px;flex-shrink:0;"></div>
+    <div><h2 style="margin-bottom:0;" id="otHistName"></h2><div style="font-size:12px;color:var(--text2);" id="otHistSub"></div></div>
+    <div style="margin-left:auto;text-align:right;"><div style="font-size:11px;color:var(--text2);">This month</div><div class="mono" style="font-size:20px;color:var(--amber-text);" id="otHistMo">0</div></div>
+    <div style="text-align:right;padding-left:12px;border-left:1px solid var(--border);"><div style="font-size:11px;color:var(--text2);">All time</div><div class="mono" style="font-size:20px;color:var(--text2);" id="otHistAl">0</div></div>
   </div>
-</div>
+  <div class="filter-row" id="otHistFilters"></div>
+  <div style="font-size:12px;color:var(--text2);margin-bottom:8px;" id="otHistCount"></div>
+  <div class="hist-list" id="otHistList"></div>
+  <div class="mactions"><button class="btn btn-navy" onclick="closeModal('otHistModal')">Close</button></div>
+</div></div>
+
+<div class="overlay" id="leaveHistModal"><div class="modal" style="width:500px;">
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px;">
+    <div class="avatar" id="lvHistAv" style="width:38px;height:38px;font-size:12px;flex-shrink:0;"></div>
+    <div><h2 style="margin-bottom:0;" id="lvHistName"></h2><div style="font-size:12px;color:var(--text2);" id="lvHistSub"></div></div>
+    <div style="margin-left:auto;text-align:right;"><div style="font-size:11px;color:var(--text2);">This month</div><div class="mono" style="font-size:20px;color:var(--red-text);" id="lvHistMo">0</div></div>
+    <div style="text-align:right;padding-left:12px;border-left:1px solid var(--border);"><div style="font-size:11px;color:var(--text2);">All time</div><div class="mono" style="font-size:20px;color:var(--text2);" id="lvHistAl">0</div></div>
+  </div>
+  <div class="filter-row" id="lvHistFilters"></div>
+  <div style="font-size:12px;color:var(--text2);margin-bottom:8px;" id="lvHistCount"></div>
+  <div class="hist-list" id="lvHistList"></div>
+  <div class="mactions"><button class="btn btn-navy" onclick="closeModal('leaveHistModal')">Close</button></div>
+</div></div>
 
 <script>
-// ─── CONFIG ───────────────────────────────────────────────
-const BIN_ID  = '69c93d9e5fdde574550f68c3';
-const API_KEY = '$2a$10$/Qf5YRKzzhmmpvfSnZtkIeqVUKFr7MoMTb9.AvmgIBuFOMBUM910G';
-const BIN_URL = `https://api.jsonbin.io/v3/b/${BIN_ID}`;
-const ADMIN_PASS = 'Admin@2026#';
-const MONTHS = ["January","February","March","April","May","June","July","August","September","October","November","December"];
-// Auto-refresh every 60 seconds so all viewers stay in sync
-const AUTO_REFRESH_MS = 60000;
+const BIN_ID='69c93d9e5fdde574550f68c3';
+const API_KEY='$2a$10$/Qf5YRKzzhmmpvfSnZtkIeqVUKFr7MoMTb9.AvmgIBuFOMBUM910G';
+const BIN_URL=`https://api.jsonbin.io/v3/b/${BIN_ID}`;
+const ADMIN_PASS='Admin@2026#';
+const MONTHS=["January","February","March","April","May","June","July","August","September","October","November","December"];
 
-// ─── CREW ─────────────────────────────────────────────────
-const CREW = [
-  {id:1,  empId:"10001837", name:"Amal Prasanth M",      email:"amalprasanth@aai.aero", phone:"8590121581"},
-  {id:2,  empId:"10007897", name:"Anbu Y",               email:"anbu@aai.aero",          phone:"9400274782"},
-  {id:3,  empId:"10024413", name:"Arjun M",              email:"arjun.m@aai.aero",       phone:"9188363616"},
-  {id:4,  empId:"10001266", name:"Athul Sasidhar G S",   email:"athulgs@aai.aero",       phone:"9567606500"},
-  {id:5,  empId:"10022357", name:"Bijukumar N R",        email:"bijukn@aai.aero",        phone:"9446102101"},
-  {id:6,  empId:"10024456", name:"Buvanesh Kanth S",     email:"buvanesh.s@aai.aero",    phone:"9360206605"},
-  {id:7,  empId:"10022342", name:"G S Neelakantapillai", email:"neelakandap@aai.aero",   phone:"9447464614"},
-  {id:8,  empId:"10001836", name:"G Vasanth",            email:"gvasanth@aai.aero",      phone:"9047473735"},
-  {id:9,  empId:"10001412", name:"M Balasubramaniam",    email:"mbala@aai.aero",         phone:"9952289736"},
-  {id:10, empId:"10015265", name:"Manulal A S",          email:"manulal@aai.aero",       phone:"9847771613"},
-  {id:11, empId:"10014499", name:"Pramod Jacob",         email:"pjacob@aai.aero",        phone:"9446900135"},
-  {id:12, empId:"10013871", name:"R Rajamohan",          email:"rajamohan@aai.aero",     phone:"8281001219"},
-  {id:13, empId:"10003489", name:"R Sudhar Singh",       email:"sudharsingh@aai.aero",   phone:"9946427284"},
-  {id:14, empId:"10014500", name:"S Jeyaraman",          email:"jeyaramans@aai.aero",    phone:"9447089303"},
-  {id:15, empId:"10007914", name:"S R Sen",              email:"sensr@aai.aero",         phone:"9744355682"},
-  {id:16, empId:"10012985", name:"S Thilakar",           email:"thilakar@aai.aero",      phone:"9245732814"},
-  {id:17, empId:"10007971", name:"Shaji R A",            email:"shaji@aai.aero",         phone:"7708501875"},
-  {id:18, empId:"10007998", name:"Shamnad M R",          email:"shamnad@aai.aero",       phone:"8891166836"},
-  {id:19, empId:"10024468", name:"Vijeesh Jith V P",     email:"vijeesh.p@aai.aero",     phone:"8592942314"},
+const CREW=[
+  {id:1, empId:"10001837",name:"Amal Prasanth M",     email:"amalprasanth@aai.aero",phone:"8590121581"},
+  {id:2, empId:"10007897",name:"Anbu Y",              email:"anbu@aai.aero",         phone:"9400274782"},
+  {id:3, empId:"10024413",name:"Arjun M",             email:"arjun.m@aai.aero",      phone:"9188363616"},
+  {id:4, empId:"10001266",name:"Athul Sasidhar G S",  email:"athulgs@aai.aero",      phone:"9567606500"},
+  {id:5, empId:"10022357",name:"Bijukumar N R",       email:"bijukn@aai.aero",       phone:"9446102101"},
+  {id:6, empId:"10024456",name:"Buvanesh Kanth S",    email:"buvanesh.s@aai.aero",   phone:"9360206605"},
+  {id:7, empId:"10022342",name:"G S Neelakantapillai",email:"neelakandap@aai.aero",  phone:"9447464614"},
+  {id:8, empId:"10001836",name:"G Vasanth",           email:"gvasanth@aai.aero",     phone:"9047473735"},
+  {id:9, empId:"10001412",name:"M Balasubramaniam",   email:"mbala@aai.aero",        phone:"9952289736"},
+  {id:10,empId:"10015265",name:"Manulal A S",         email:"manulal@aai.aero",      phone:"9847771613"},
+  {id:11,empId:"10014499",name:"Pramod Jacob",        email:"pjacob@aai.aero",       phone:"9446900135"},
+  {id:12,empId:"10013871",name:"R Rajamohan",         email:"rajamohan@aai.aero",    phone:"8281001219"},
+  {id:13,empId:"10003489",name:"R Sudhar Singh",      email:"sudharsingh@aai.aero",  phone:"9946427284"},
+  {id:14,empId:"10014500",name:"S Jeyaraman",         email:"jeyaramans@aai.aero",   phone:"9447089303"},
+  {id:15,empId:"10007914",name:"S R Sen",             email:"sensr@aai.aero",        phone:"9744355682"},
+  {id:16,empId:"10012985",name:"S Thilakar",          email:"thilakar@aai.aero",     phone:"9245732814"},
+  {id:17,empId:"10007971",name:"Shaji R A",           email:"shaji@aai.aero",        phone:"7708501875"},
+  {id:18,empId:"10007998",name:"Shamnad M R",         email:"shamnad@aai.aero",      phone:"8891166836"},
+  {id:19,empId:"10024468",name:"Vijeesh Jith V P",    email:"vijeesh.p@aai.aero",    phone:"8592942314"},
 ];
 CREW.forEach((c,i)=>{c.color=i%4;c.initials=c.name.split(' ').map(w=>w[0]).slice(0,2).join('').toUpperCase();});
 
-// ─── STATE ────────────────────────────────────────────────
-let isAdmin=false;
-let currentDate=new Date(); currentDate.setHours(0,0,0,0);
-let calViewDate=new Date(currentDate);
-let scheduleData={};
-let pendingRequests=[];
-let otLog={};
-let activeTab='today';
-let portalCrewId=null;
-let isSaving=false;
+let isAdmin=false,currentDate=new Date(),calViewDate,portalCrewId=null,isSaving=false,activeTab='today';
+currentDate.setHours(0,0,0,0); calViewDate=new Date(currentDate);
+let scheduleData={},pendingRequests=[],otLog={},leaveLog={};
 
-// ─── JSONBIN CLOUD SYNC ───────────────────────────────────
+// CLOUD
+function setSyncState(s,m){document.getElementById('syncDot').className='sync-dot '+s;document.getElementById('syncMsg').textContent=m;}
 async function loadFromCloud(){
-  setSyncState('syncing','Loading latest data...');
+  setSyncState('syncing','Loading...');
   try{
-    const res=await fetch(BIN_URL+'/latest',{
-      headers:{'X-Master-Key':API_KEY,'X-Bin-Meta':'false'}
-    });
-    if(!res.ok) throw new Error('Fetch failed');
-    const data=await res.json();
-    scheduleData   = data.scheduleData    || {};
-    pendingRequests= data.pendingRequests || [];
-    otLog          = data.otLog           || {};
-    const now=new Date();
-    setSyncState('ok','Last synced: '+now.toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'}));
-    return true;
-  }catch(e){
-    setSyncState('err','Could not reach cloud — showing last known data');
-    return false;
-  }
+    const r=await fetch(BIN_URL+'/latest',{headers:{'X-Master-Key':API_KEY,'X-Bin-Meta':'false'}});
+    if(!r.ok)throw 0;
+    const d=await r.json();
+    scheduleData=d.scheduleData||{};pendingRequests=d.pendingRequests||[];otLog=d.otLog||{};leaveLog=d.leaveLog||{};
+    setSyncState('ok','Synced: '+new Date().toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'}));
+  }catch{setSyncState('err','Offline — showing last known data');}
 }
-
 async function saveToCloud(){
-  if(isSaving) return;
-  isSaving=true;
-  setSyncState('syncing','Saving...');
+  if(isSaving)return;isSaving=true;setSyncState('syncing','Saving...');
   try{
-    const res=await fetch(BIN_URL,{
-      method:'PUT',
-      headers:{'Content-Type':'application/json','X-Master-Key':API_KEY},
-      body:JSON.stringify({scheduleData,pendingRequests,otLog})
-    });
-    if(!res.ok) throw new Error('Save failed');
-    const now=new Date();
-    setSyncState('ok','Saved at '+now.toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'}));
-  }catch(e){
-    setSyncState('err','Save failed — check your connection');
-  }finally{isSaving=false;}
+    const r=await fetch(BIN_URL,{method:'PUT',headers:{'Content-Type':'application/json','X-Master-Key':API_KEY},body:JSON.stringify({scheduleData,pendingRequests,otLog,leaveLog})});
+    if(!r.ok)throw 0;
+    setSyncState('ok','Saved: '+new Date().toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'}));
+  }catch{setSyncState('err','Save failed — check connection');}
+  isSaving=false;
 }
+setInterval(()=>{if(!isAdmin)loadFromCloud().then(refreshAll);},60000);
 
-function setSyncState(state,msg){
-  const dot=document.getElementById('syncDot');
-  const txt=document.getElementById('syncMsg');
-  dot.className='sync-dot '+state;
-  txt.textContent=msg;
-}
+// HELPERS
+const dateKey=d=>d.toISOString().split('T')[0];
+const crewById=id=>CREW.find(c=>c.id===id);
+const crewByEmpId=eid=>CREW.find(c=>c.empId===eid.trim());
+const curMonthKey=()=>{const n=new Date();return`${n.getFullYear()}-${String(n.getMonth()+1).padStart(2,'0')}`;};
 
-// Auto-refresh for crew members (read-only poll)
-setInterval(()=>{
-  if(!isAdmin) loadFromCloud().then(()=>{renderToday();renderRequests();});
-}, AUTO_REFRESH_MS);
-
-// ─── HELPERS ──────────────────────────────────────────────
-function dateKey(d){return d.toISOString().split('T')[0];}
-function crewById(id){return CREW.find(c=>c.id===id);}
-function crewByEmpId(eid){return CREW.find(c=>c.empId===eid.trim());}
-function currentMonthKey(){const n=new Date();return`${n.getFullYear()}-${String(n.getMonth()+1).padStart(2,'0')}`;}
-
-function getSchedule(d){
+function getSch(d){
   const k=dateKey(d);
-  if(!scheduleData[k]){
-    // All crew start as unassigned — admin must explicitly place them
-    scheduleData[k]={
-      morning:[],
-      evening:[],
-      off:CREW.map(c=>({id:c.id,status:'off'}))
-    };
-  }
+  if(!scheduleData[k]) scheduleData[k]={morning:[],evening:[],off:CREW.map(c=>({id:c.id,status:'off'}))};
   return scheduleData[k];
 }
 
-function getOTLogs(crewId){return otLog[crewId]||[];}
-function otCountMonth(crewId){const mk=currentMonthKey();return getOTLogs(crewId).filter(l=>l.date.startsWith(mk)).length;}
-function otCountAll(crewId){return getOTLogs(crewId).length;}
-
-// Each OT log entry is unique per date+shift combination
-function addOTLog(crewId,date,shift,note){
-  if(!otLog[crewId])otLog[crewId]=[];
-  if(!otLog[crewId].find(l=>l.date===date&&l.shift===shift)){
-    otLog[crewId].push({date,shift,note:note||''});
-    otLog[crewId].sort((a,b)=>b.date.localeCompare(a.date)||a.shift.localeCompare(b.shift));
-  }
+// OT LOG
+const getOTLogs=id=>otLog[id]||[];
+const otMo=id=>getOTLogs(id).filter(l=>l.date.startsWith(curMonthKey())).length;
+const otAll=id=>getOTLogs(id).length;
+function addOTLog(id,date,shift,note){
+  if(!otLog[id])otLog[id]=[];
+  if(!otLog[id].find(l=>l.date===date&&l.shift===shift)){otLog[id].push({date,shift,note:note||''});otLog[id].sort((a,b)=>b.date.localeCompare(a.date));}
 }
-function removeOTLog(crewId,date,shift){
-  if(!otLog[crewId])return;
-  // if shift specified remove that specific one, else remove any for that date
-  otLog[crewId]=otLog[crewId].filter(l=>!(l.date===date&&(!shift||l.shift===shift)));
-}
+function remOTLog(id,date,shift){if(!otLog[id])return;otLog[id]=otLog[id].filter(l=>!(l.date===date&&(!shift||l.shift===shift)));}
 
-// Returns which shift(s) a crew member is already regularly assigned to on a date
-function getRegularShift(crewId,d){
-  const sch=getSchedule(d);
-  const inM=sch.morning.find(e=>e.id===crewId&&e.status!=='ot');
-  const inE=sch.evening.find(e=>e.id===crewId&&e.status!=='ot');
-  if(inM&&inE) return 'both';
-  if(inM) return 'morning';
-  if(inE) return 'evening';
-  return 'none';
+// LEAVE LOG
+const getLeaveLogs=id=>leaveLog[id]||[];
+const lvMo=id=>getLeaveLogs(id).filter(l=>l.date.startsWith(curMonthKey())).length;
+const lvAll=id=>getLeaveLogs(id).length;
+function addLeaveLog(id,date,note){
+  if(!leaveLog[id])leaveLog[id]=[];
+  if(!leaveLog[id].find(l=>l.date===date)){leaveLog[id].push({date,note:note||''});leaveLog[id].sort((a,b)=>b.date.localeCompare(a.date));}
+}
+function remLeaveLog(id,date){if(!leaveLog[id])return;leaveLog[id]=leaveLog[id].filter(l=>l.date!==date);}
+
+function getRegShift(id,d){
+  const s=getSch(d);
+  if(s.morning.find(e=>e.id===id&&e.status!=='ot'))return'morning';
+  if(s.evening.find(e=>e.id===id&&e.status!=='ot'))return'evening';
+  return'none';
 }
 
-// Returns the opposite shift for OT purposes
-function otherShift(shift){return shift==='morning'?'evening':'morning';}
+// PILL
+function pill(s){return({duty:'<span class="pill p-duty">On duty</span>',leave:'<span class="pill p-leave">On leave</span>',ot:'<span class="pill p-ot">Overtime</span>',off:'<span class="pill p-off">Unassigned</span>',dayoff:'<span class="pill p-dayoff">Day off</span>'})[s]||'';}
 
-function pill(s){
-  return({
-    duty:'<span class="pill p-duty">On duty</span>',
-    leave:'<span class="pill p-leave">On leave</span>',
-    ot:'<span class="pill p-ot">Overtime</span>',
-    off:'<span class="pill p-off">Day off</span>',
-    pending:'<span class="pill p-pending">Pending</span>'
-  })[s]||'';
+function crewItemHtml(e,editable){
+  const c=crewById(e.id);if(!c)return'';
+  const eb=editable&&isAdmin?`<button class="btn btn-sm" onclick="openEditModal(${e.id})">Edit</button>`:'';
+  return`<div class="crew-item"><div class="avatar av-${c.color}">${c.initials}</div><div style="flex:1;min-width:0;"><div class="crew-name">${c.name}</div><div class="crew-sub">${c.empId}</div></div>${pill(e.status)}${eb}</div>`;
 }
 
-function crewItemHtml(entry,editable){
-  const c=crewById(entry.id);if(!c)return'';
-  const eb=editable&&isAdmin?`<button class="btn btn-sm" onclick="openEditModal(${entry.id})">Edit</button>`:'';
-  return`<div class="crew-item">
-    <div class="avatar av-${c.color}">${c.initials}</div>
-    <div style="flex:1;min-width:0;"><div class="crew-name">${c.name}</div><div class="crew-sub">${c.empId}</div></div>
-    ${pill(entry.status)}${eb}
-  </div>`;
+// ASSIGN SHIFT CHANGE
+function onAssignShiftChange(){
+  const sh=document.getElementById('assignShift').value;
+  const sel=document.getElementById('assignStatus');
+  if(sh==='none'){sel.innerHTML='<option value="leave">On leave</option><option value="dayoff">Day off</option>';}
+  else{sel.innerHTML='<option value="duty">On duty</option><option value="leave">On leave</option><option value="ot">Overtime</option><option value="dayoff">Day off</option>';}
 }
 
-// ─── RENDER FUNCTIONS ─────────────────────────────────────
+// SUMMARY
 function renderSummary(){
-  const sch=getSchedule(currentDate);
-  const all=[...sch.morning,...sch.evening,...sch.off];
-  const onLeave=all.filter(x=>x.status==='leave').length;
-  const onDuty=[...sch.morning,...sch.evening].filter(x=>x.status!=='leave').length;
-  const pending=pendingRequests.length;
+  const s=getSch(currentDate);
+  const onDuty=[...s.morning,...s.evening].filter(x=>x.status!=='leave').length;
+  const onLeave=[...s.morning,...s.evening,...s.off].filter(x=>x.status==='leave').length;
   document.getElementById('summaryGrid').innerHTML=`
     <div class="stat-card"><div class="stat-label">Total crew</div><div class="stat-value">19</div></div>
     <div class="stat-card"><div class="stat-label">On duty</div><div class="stat-value" style="color:var(--green-text)">${onDuty}</div></div>
     <div class="stat-card"><div class="stat-label">On leave</div><div class="stat-value" style="color:var(--red-text)">${onLeave}</div></div>
-    <div class="stat-card"><div class="stat-label">Pending requests</div><div class="stat-value" style="color:var(--purple-text)">${pending}</div></div>`;
+    <div class="stat-card"><div class="stat-label">Pending requests</div><div class="stat-value" style="color:var(--purple-text)">${pendingRequests.length}</div></div>`;
 }
 
+// TODAY
 function renderToday(){
-  const sch=getSchedule(currentDate);
+  const s=getSch(currentDate);
   document.getElementById('dateLabel').textContent=currentDate.toLocaleDateString('en-IN',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
-  const mOk=sch.morning.length>=8,eOk=sch.evening.length>=8;
-  const emptyShiftMsg=`<div style="text-align:center;padding:20px 10px;color:var(--text2);font-size:12px;">No crew assigned yet</div>`;
+  const empty='<div style="text-align:center;padding:20px;color:var(--text2);font-size:12px;">No crew assigned yet</div>';
+  const mOk=s.morning.length>=8,eOk=s.evening.length>=8;
   document.getElementById('shiftsGrid').innerHTML=`
-    <div class="shift-card">
-      <div class="shift-header"><span class="shift-badge shift-morning">Morning — 06:00 to 14:00</span>
-      <span style="font-size:12px;font-weight:700;color:${mOk?'var(--green-text)':'var(--red-text)'}">${sch.morning.length}/8</span></div>
-      <div class="crew-list">${sch.morning.length?sch.morning.map(e=>crewItemHtml(e,true)).join(''):emptyShiftMsg}</div>
-    </div>
-    <div class="shift-card">
-      <div class="shift-header"><span class="shift-badge shift-evening">Evening — 14:00 to 22:00</span>
-      <span style="font-size:12px;font-weight:700;color:${eOk?'var(--green-text)':'var(--red-text)'}">${sch.evening.length}/8</span></div>
-      <div class="crew-list">${sch.evening.length?sch.evening.map(e=>crewItemHtml(e,true)).join(''):emptyShiftMsg}</div>
-    </div>`;
-  document.getElementById('unassignedList').innerHTML=sch.off.map(entry=>{
-    const c=crewById(entry.id);
-    const eb=isAdmin?`<button class="btn btn-sm" style="font-size:10px;padding:2px 7px;" onclick="openEditModal(${entry.id})">Edit</button>`:'';
-    return`<div class="chip"><div class="avatar av-${c.color}" style="width:20px;height:20px;font-size:8px;">${c.initials}</div>${c.name}${eb}</div>`;
-  }).join('');
+    <div class="shift-card"><div class="shift-header"><span class="shift-badge shift-morning">Morning — 06:00 to 14:00</span><span style="font-size:12px;font-weight:700;color:${mOk?'var(--green-text)':'var(--red-text)'}">${s.morning.length}/8</span></div><div class="crew-list">${s.morning.length?s.morning.map(e=>crewItemHtml(e,true)).join(''):empty}</div></div>
+    <div class="shift-card"><div class="shift-header"><span class="shift-badge shift-evening">Evening — 14:00 to 22:00</span><span style="font-size:12px;font-weight:700;color:${eOk?'var(--green-text)':'var(--red-text)'}">${s.evening.length}/8</span></div><div class="crew-list">${s.evening.length?s.evening.map(e=>crewItemHtml(e,true)).join(''):empty}</div></div>`;
+
+  const unassigned=s.off.filter(e=>e.status==='off');
+  const onLeave=s.off.filter(e=>e.status==='leave');
+  const onDayoff=s.off.filter(e=>e.status==='dayoff');
+
+  function makeChips(entries){
+    return entries.map(e=>{
+      const c=crewById(e.id);
+      const eb=isAdmin?`<button class="btn btn-sm" style="font-size:10px;padding:2px 7px;" onclick="openEditModal(${e.id})">Edit</button>`:'';
+      return`<div class="chip"><div class="avatar av-${c.color}" style="width:20px;height:20px;font-size:8px;">${c.initials}</div>${c.name}${eb}</div>`;
+    }).join('');
+  }
+  function grp(entries,title,color){
+    if(!entries.length)return'';
+    return`<div class="group-block"><div class="group-heading" style="color:${color};">${title} <span style="font-weight:400;opacity:.7;">(${entries.length})</span></div><div class="chip-list">${makeChips(entries)}</div></div>`;
+  }
+  document.getElementById('belowShifts').innerHTML=
+    grp(unassigned,'Unassigned — pending admin allocation','var(--text2)')+
+    grp(onLeave,'On leave','var(--red-text)')+
+    grp(onDayoff,'Day off','var(--blue-text)');
+
   document.getElementById('adminControls').style.display=isAdmin?'flex':'none';
   renderSummary();
 }
 function changeDay(d){currentDate.setDate(currentDate.getDate()+d);renderToday();}
 
+// REQUESTS
 function renderRequests(){
-  const badge=document.getElementById('reqBadge');
   const count=pendingRequests.length;
-  badge.style.display=count>0?'':'none';
-  badge.textContent=count;
+  const badge=document.getElementById('reqBadge');
+  badge.style.display=count?'':'none';badge.textContent=count;
   const el=document.getElementById('requestsList');
-  if(count===0){
-    el.innerHTML=`<div style="text-align:center;padding:40px 20px;color:var(--text2);">
-      <div style="font-size:32px;margin-bottom:8px;">✓</div>
-      <div style="font-size:14px;font-weight:500;">No pending requests</div>
-      <div style="font-size:12px;margin-top:4px;">All crew requests have been reviewed</div></div>`;
-    return;
-  }
+  if(!count){el.innerHTML='<div style="text-align:center;padding:40px;color:var(--text2);"><div style="font-size:32px;margin-bottom:8px;">✓</div><div style="font-size:14px;font-weight:500;">No pending requests</div></div>';return;}
   const tl={shift:'Shift change',leave:'Leave',ot:'Overtime'};
   el.innerHTML='<div class="requests-panel">'+pendingRequests.map((r,i)=>{
     const c=crewById(r.crewId);
     const si=r.type==='shift'?` → <strong>${r.shift==='morning'?'Morning':'Evening'}</strong>`:'';
-    return`<div class="req-item">
-      <div class="avatar av-${c.color}" style="flex-shrink:0;margin-top:2px;">${c.initials}</div>
-      <div class="req-meta">
-        <div class="req-name">${c.name} <span style="font-size:11px;color:var(--text2);font-weight:400;">${c.empId}</span></div>
-        <div class="req-detail"><strong>${tl[r.type]}</strong>${si} &nbsp;·&nbsp; ${r.date}</div>
-        ${r.note?`<div class="req-note">"${r.note}"</div>`:''}
-      </div>
-      <div class="req-actions">
-        <button class="btn btn-green btn-sm" onclick="approveRequest(${i})">Approve</button>
-        <button class="btn btn-red btn-sm" onclick="rejectRequest(${i})">Reject</button>
-      </div></div>`;
+    return`<div class="req-item"><div class="avatar av-${c.color}" style="flex-shrink:0;margin-top:2px;">${c.initials}</div>
+      <div class="req-meta"><div class="req-name">${c.name} <span style="font-size:11px;color:var(--text2);font-weight:400;">${c.empId}</span></div>
+      <div class="req-detail"><strong>${tl[r.type]||r.type}</strong>${si} &nbsp;·&nbsp; ${r.date}</div>${r.note?`<div class="req-note">"${r.note}"</div>`:''}</div>
+      <div class="req-actions"><button class="btn btn-green btn-sm" onclick="approveReq(${i})">Approve</button><button class="btn btn-red btn-sm" onclick="rejectReq(${i})">Reject</button></div></div>`;
   }).join('')+'</div>';
 }
 
-async function approveRequest(i){
+async function approveReq(i){
   if(!isAdmin)return;
   const r=pendingRequests[i];
   const d=new Date(r.date+'T00:00:00');
-  const sch=getSchedule(d);
-  sch.morning=sch.morning.filter(e=>e.id!==r.crewId);
-  sch.evening=sch.evening.filter(e=>e.id!==r.crewId);
-  sch.off=sch.off.filter(e=>e.id!==r.crewId);
-  if(r.type==='leave'){
-    sch.off.push({id:r.crewId,status:'leave'});
-  }else if(r.type==='ot'){
-    // Add to the OT shift WITHOUT removing from regular shift
-    const otShift=r.otShift||'evening';
-    if(otShift==='morning'&&!sch.morning.find(e=>e.id===r.crewId))
-      sch.morning.push({id:r.crewId,status:'ot'});
-    if(otShift==='evening'&&!sch.evening.find(e=>e.id===r.crewId))
-      sch.evening.push({id:r.crewId,status:'ot'});
-    addOTLog(r.crewId,r.date,otShift,r.note);
+  const s=getSch(d);
+  s.morning=s.morning.filter(e=>e.id!==r.crewId);
+  s.evening=s.evening.filter(e=>e.id!==r.crewId);
+  s.off=s.off.filter(e=>e.id!==r.crewId);
+  if(r.type==='leave'){s.off.push({id:r.crewId,status:'leave'});addLeaveLog(r.crewId,r.date,r.note);}
+  else if(r.type==='ot'){
+    const sh=r.otShift||'evening';
+    if(sh==='morning')s.morning.push({id:r.crewId,status:'ot'});else s.evening.push({id:r.crewId,status:'ot'});
+    addOTLog(r.crewId,r.date,sh,r.note);
   }else if(r.type==='shift'){
-    if(r.shift==='morning')sch.morning.push({id:r.crewId,status:'duty'});
-    else sch.evening.push({id:r.crewId,status:'duty'});
+    if(r.shift==='morning')s.morning.push({id:r.crewId,status:'duty'});else s.evening.push({id:r.crewId,status:'duty'});
   }
   pendingRequests.splice(i,1);
-  await saveToCloud();
-  renderRequests();renderToday();renderOT();
+  await saveToCloud();renderRequests();renderToday();renderOT();renderLeave();
 }
-async function rejectRequest(i){
-  pendingRequests.splice(i,1);
-  await saveToCloud();
-  renderRequests();renderSummary();
-}
+async function rejectReq(i){pendingRequests.splice(i,1);await saveToCloud();renderRequests();renderSummary();}
 
+// CALENDAR
 function renderCalendar(){
   const y=calViewDate.getFullYear(),m=calViewDate.getMonth();
   document.getElementById('calMonthLabel').textContent=`${MONTHS[m]} ${y}`;
-  const firstDay=new Date(y,m,1).getDay(),dim=new Date(y,m+1,0).getDate();
+  const first=new Date(y,m,1).getDay(),dim=new Date(y,m+1,0).getDate();
   let html=['Su','Mo','Tu','We','Th','Fr','Sa'].map(d=>`<div class="cal-dh">${d}</div>`).join('');
-  for(let i=0;i<firstDay;i++)html+='<div></div>';
+  for(let i=0;i<first;i++)html+='<div></div>';
   const ts=new Date().toDateString();
   for(let d=1;d<=dim;d++){
-    const dd=new Date(y,m,d);
-    const sch=getSchedule(dd);
-    const full=sch.morning.length>=8&&sch.evening.length>=8;
-    const isT=dd.toDateString()===ts;
+    const dd=new Date(y,m,d),s=getSch(dd);
+    const full=s.morning.length>=8&&s.evening.length>=8,isT=dd.toDateString()===ts;
     html+=`<div class="cal-day" onclick="jumpDate(${y},${m},${d})" style="background:${full?'var(--blue-bg)':'var(--red-bg)'};color:${full?'var(--blue-text)':'var(--red-text)'};border:${isT?'2px':'1px'} solid ${full?'var(--blue-border)':'var(--red-border)'};font-weight:${isT?700:400};">${d}</div>`;
   }
   document.getElementById('calGrid').innerHTML=html;
@@ -710,156 +576,135 @@ function renderCalendar(){
 function calChangeMonth(d){calViewDate.setMonth(calViewDate.getMonth()+d);renderCalendar();}
 function jumpDate(y,m,d){currentDate=new Date(y,m,d);openTab('today');renderToday();}
 
-function renderOT(){
-  const filter=document.getElementById('otFilter').value;
-  const sort=document.getElementById('otSort').value;
+// TRACKER RENDERER (shared for OT and Leave)
+function renderTracker(type){
+  const isOT=(type==='ot');
+  const filterEl=document.getElementById(isOT?'otFilter':'leaveFilter');
+  const sortEl=document.getElementById(isOT?'otSort':'leaveSort');
+  const gridEl=document.getElementById(isOT?'otGrid':'leaveGrid');
+  const getMo=isOT?otMo:lvMo, getAll=isOT?otAll:lvAll;
   let crew=[...CREW];
-  if(filter==='hasOT')crew=crew.filter(c=>otCountAll(c.id)>0);
-  if(sort==='month')crew.sort((a,b)=>otCountMonth(b.id)-otCountMonth(a.id));
-  else if(sort==='alltime')crew.sort((a,b)=>otCountAll(b.id)-otCountAll(a.id));
+  if(filterEl.value===(isOT?'hasOT':'hasLeave'))crew=crew.filter(c=>getAll(c.id)>0);
+  const sv=sortEl.value;
+  if(sv==='month')crew.sort((a,b)=>getMo(b.id)-getMo(a.id));
+  else if(sv==='alltime')crew.sort((a,b)=>getAll(b.id)-getAll(a.id));
   else crew.sort((a,b)=>a.name.localeCompare(b.name));
-  const maxM=Math.max(1,...crew.map(c=>otCountMonth(c.id)));
-  const maxA=Math.max(1,...crew.map(c=>otCountAll(c.id)));
-  document.getElementById('otGrid').innerHTML=crew.map(c=>{
-    const mo=otCountMonth(c.id),al=otCountAll(c.id);
-    const mPct=Math.round((mo/maxM)*100);
-    const aPct=Math.round((al/maxA)*100);
-    const vb=isAdmin?`<button class="ot-view-btn" onclick="openOTHistory(${c.id})">View OT dates (${al} total)</button>`:'';
-    return`<div class="ot-card">
-      <div class="ot-card-header">
-        <div class="avatar av-${c.color}" style="width:36px;height:36px;font-size:11px;flex-shrink:0;">${c.initials}</div>
-        <div class="ot-bars"><div class="ot-name">${c.name}</div><div class="ot-empid">${c.empId}</div></div>
-      </div>
-      <div class="ot-row"><div class="ot-row-label">This month</div>
-        <div class="ot-bar-wrap"><div class="ot-bar" style="width:${mPct}%;background:var(--amber-border);"></div></div>
-        <div class="ot-num" style="color:var(--amber-text)">${mo}</div></div>
-      <div class="ot-row"><div class="ot-row-label">All time</div>
-        <div class="ot-bar-wrap"><div class="ot-bar" style="width:${aPct}%;background:var(--navy);opacity:0.45;"></div></div>
-        <div class="ot-num" style="color:var(--text2)">${al}</div></div>
-      ${vb}
-    </div>`;
+  const maxM=Math.max(1,...crew.map(c=>getMo(c.id)));
+  const maxA=Math.max(1,...crew.map(c=>getAll(c.id)));
+  const barColorM=isOT?'var(--amber-border)':'var(--red-border)';
+  const numColorM=isOT?'var(--amber-text)':'var(--red-text)';
+  const btnLabel=isOT?'View OT dates':'View leave dates';
+  const modalFn=isOT?`openHistModal('ot',${0})`:`openHistModal('leave',${0})`;
+  gridEl.innerHTML=crew.map(c=>{
+    const mo=getMo(c.id),al=getAll(c.id);
+    const vb=isAdmin?`<button class="tc-btn" onclick="openHistModal('${type}',${c.id})">${btnLabel} (${al} total)</button>`:'';
+    return`<div class="tracker-card">
+      <div class="tc-header"><div class="avatar av-${c.color}" style="width:36px;height:36px;font-size:11px;flex-shrink:0;">${c.initials}</div><div><div class="tc-name">${c.name}</div><div class="tc-empid">${c.empId}</div></div></div>
+      <div class="tc-row"><div class="tc-label">This month</div><div class="tc-bar-wrap"><div class="tc-bar" style="width:${Math.round(mo/maxM*100)}%;background:${barColorM};"></div></div><div class="tc-num" style="color:${numColorM}">${mo}</div></div>
+      <div class="tc-row"><div class="tc-label">All time</div><div class="tc-bar-wrap"><div class="tc-bar" style="width:${Math.round(al/maxA*100)}%;background:var(--navy);opacity:.4;"></div></div><div class="tc-num" style="color:var(--text2)">${al}</div></div>
+      ${vb}</div>`;
   }).join('');
 }
+function renderOT(){renderTracker('ot');}
+function renderLeave(){renderTracker('leave');}
 
-function openOTHistory(crewId){
+// HISTORY MODAL
+function openHistModal(type,crewId){
   if(!isAdmin)return;
-  const c=crewById(crewId);
-  const logs=getOTLogs(crewId);
-  document.getElementById('otHistAvatar').className=`avatar av-${c.color}`;
-  document.getElementById('otHistAvatar').style.cssText='width:38px;height:38px;font-size:12px;flex-shrink:0;';
-  document.getElementById('otHistAvatar').textContent=c.initials;
-  document.getElementById('otHistName').textContent=c.name;
-  document.getElementById('otHistSub').textContent=c.empId+' · '+c.email;
-  document.getElementById('otHistMonth').textContent=otCountMonth(crewId);
-  document.getElementById('otHistAll').textContent=otCountAll(crewId);
-  const monthsPresent=[...new Set(logs.map(l=>l.date.substring(0,7)))].sort((a,b)=>b.localeCompare(a));
-  document.getElementById('otHistFilters').innerHTML=
-    '<button class="filter-chip active" onclick="setOTHistFilter(\'all\',this)">All time</button>'+
-    monthsPresent.map(mk=>{const[y,m]=mk.split('-');return`<button class="filter-chip" onclick="setOTHistFilter('${mk}',this)">${MONTHS[parseInt(m)-1]} ${y}</button>`;}).join('');
-  document.getElementById('otHistFilters').dataset.crewId=crewId;
-  renderOTHistList(crewId,'all');
-  document.getElementById('otHistModal').classList.add('open');
+  const c=crewById(crewId),isOT=(type==='ot');
+  const logs=isOT?getOTLogs(crewId):getLeaveLogs(crewId);
+  const mo=isOT?otMo(crewId):lvMo(crewId),al=isOT?otAll(crewId):lvAll(crewId);
+  const pfx=isOT?'otHist':'lvHist',modalId=isOT?'otHistModal':'leaveHistModal';
+  document.getElementById(pfx+'Av').className=`avatar av-${c.color}`;
+  document.getElementById(pfx+'Av').style.cssText='width:38px;height:38px;font-size:12px;flex-shrink:0;';
+  document.getElementById(pfx+'Av').textContent=c.initials;
+  document.getElementById(pfx+'Name').textContent=c.name;
+  document.getElementById(pfx+'Sub').textContent=c.empId+' · '+c.email;
+  document.getElementById(pfx+'Mo').textContent=mo;
+  document.getElementById(pfx+'Al').textContent=al;
+  const months=[...new Set(logs.map(l=>l.date.slice(0,7)))].sort((a,b)=>b.localeCompare(a));
+  document.getElementById(pfx+'Filters').innerHTML=
+    `<button class="filter-chip active" onclick="setHistFilter('${type}',${crewId},'all',this)">All time</button>`+
+    months.map(mk=>{const[y,m]=mk.split('-');return`<button class="filter-chip" onclick="setHistFilter('${type}',${crewId},'${mk}',this)">${MONTHS[+m-1]} ${y}</button>`;}).join('');
+  document.getElementById(pfx+'Filters').dataset.crewId=crewId;
+  renderHistList(type,crewId,'all');
+  openModal(modalId);
 }
-function setOTHistFilter(month,btn){
-  document.querySelectorAll('#otHistFilters .filter-chip').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-  const crewId=parseInt(document.getElementById('otHistFilters').dataset.crewId);
-  renderOTHistList(crewId,month);
+function setHistFilter(type,crewId,month,btn){
+  const pfx=type==='ot'?'otHist':'lvHist';
+  document.querySelectorAll(`#${pfx}Filters .filter-chip`).forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');renderHistList(type,crewId,month);
 }
-function renderOTHistList(crewId,filterMonth){
-  const logs=getOTLogs(crewId);
-  const filtered=filterMonth==='all'?logs:logs.filter(l=>l.date.startsWith(filterMonth));
-  document.getElementById('otHistCount').textContent=`Showing ${filtered.length} overtime shift${filtered.length!==1?'s':''}`;
-  if(filtered.length===0){
-    document.getElementById('otHistList').innerHTML=`<div style="text-align:center;padding:28px;color:var(--text2);font-size:13px;">No overtime shifts recorded${filterMonth!=='all'?' for this month':''}.</div>`;
-    return;
-  }
+function renderHistList(type,crewId,fm){
+  const isOT=(type==='ot');
+  const logs=isOT?getOTLogs(crewId):getLeaveLogs(crewId);
+  const filtered=fm==='all'?logs:logs.filter(l=>l.date.startsWith(fm));
+  const pfx=isOT?'otHist':'lvHist',unit=isOT?'shift':'day';
+  document.getElementById(pfx+'Count').textContent=`Showing ${filtered.length} ${unit}${filtered.length!==1?'s':''}`;
+  if(!filtered.length){document.getElementById(pfx+'List').innerHTML=`<div style="text-align:center;padding:28px;color:var(--text2);font-size:13px;">No ${isOT?'overtime':'leave'} days recorded${fm!=='all'?' for this month':''}.</div>`;return;}
   const groups={};
-  filtered.forEach(l=>{const mk=l.date.substring(0,7);if(!groups[mk])groups[mk]=[];groups[mk].push(l);});
+  filtered.forEach(l=>{const mk=l.date.slice(0,7);if(!groups[mk])groups[mk]=[];groups[mk].push(l);});
   const sl={morning:'Morning (06:00–14:00)',evening:'Evening (14:00–22:00)'};
   let html='';
   Object.keys(groups).sort((a,b)=>b.localeCompare(a)).forEach(mk=>{
     const[y,m]=mk.split('-');
-    html+=`<div class="ot-month-group">${MONTHS[parseInt(m)-1]} ${y} <span style="font-weight:400;color:var(--text3);">(${groups[mk].length} shift${groups[mk].length!==1?'s':''})</span></div>`;
+    html+=`<div class="hist-group">${MONTHS[+m-1]} ${y} <span style="font-weight:400;color:var(--text3);">(${groups[mk].length} ${unit}${groups[mk].length!==1?'s':''})</span></div>`;
     groups[mk].forEach(l=>{
-      const dateObj=new Date(l.date+'T00:00:00');
-      const fmt=dateObj.toLocaleDateString('en-IN',{weekday:'short',day:'numeric',month:'short',year:'numeric'});
-      html+=`<div class="ot-hist-item">
-        <div class="ot-hist-date">${fmt}</div>
-        <div class="ot-hist-shift">${sl[l.shift]||l.shift||'—'}</div>
-        ${l.note?`<div class="ot-hist-note">"${l.note}"</div>`:'<div></div>'}
-      </div>`;
+      const fmt=new Date(l.date+'T00:00:00').toLocaleDateString('en-IN',{weekday:'short',day:'numeric',month:'short',year:'numeric'});
+      const lbl=isOT?`<div class="hist-label">${sl[l.shift]||l.shift||'—'}</div>`:`<div class="hist-label" style="color:var(--red-text);font-weight:600;">On leave</div>`;
+      html+=`<div class="hist-item"><div class="hist-date">${fmt}</div>${lbl}${l.note?`<div class="hist-note">"${l.note}"</div>`:'<div></div>'}</div>`;
     });
   });
-  document.getElementById('otHistList').innerHTML=html;
+  document.getElementById(pfx+'List').innerHTML=html;
 }
 
+// CREW DIRECTORY
 function renderCrew(){
   const q=(document.getElementById('crewSearch').value||'').toLowerCase();
-  const sch=getSchedule(currentDate);
-  const allE=[
-    ...sch.morning.map(e=>({...e,shift:'Morning'})),
-    ...sch.evening.map(e=>({...e,shift:'Evening'})),
-    ...sch.off.map(e=>({...e,shift:'Day off'}))
-  ];
-  // Detect double-shift employees
+  const s=getSch(currentDate);
   const filtered=CREW.filter(c=>c.name.toLowerCase().includes(q)||c.empId.includes(q)||c.email.toLowerCase().includes(q)||c.phone.includes(q));
   const rows=filtered.map(c=>{
-    const inM=sch.morning.find(e=>e.id===c.id);
-    const inE=sch.evening.find(e=>e.id===c.id);
-    const inO=sch.off.find(e=>e.id===c.id);
-    let shiftLabel, statusHtml;
-    if(inM&&inE){
-      shiftLabel='<span style="font-size:11px;background:var(--amber-bg);color:var(--amber-text);padding:2px 7px;border-radius:20px;font-weight:600;">Both shifts</span>';
-      statusHtml=`<span class="pill p-duty">On duty</span> <span class="pill p-ot">+OT</span>`;
-    }else{
-      const entry=inM||inE||inO||{status:'off',shift:'Day off'};
-      shiftLabel=inM?'Morning':inE?'Evening':inO?'Day off':'—';
-      statusHtml=pill(entry.status);
-    }
-    const mo=otCountMonth(c.id),al=otCountAll(c.id);
+    const inM=s.morning.find(e=>e.id===c.id),inE=s.evening.find(e=>e.id===c.id),inO=s.off.find(e=>e.id===c.id);
+    let shiftLabel,statusHtml;
+    if(inM&&inE){shiftLabel='<span class="pill p-ot" style="font-size:11px;">Both shifts</span>';statusHtml='<span class="pill p-duty">On duty</span> <span class="pill p-ot">+OT</span>';}
+    else{const entry=inM||inE||inO||{status:'off'};shiftLabel=inM?'Morning':inE?'Evening':'—';statusHtml=pill(entry.status);}
     const eb=isAdmin?`<button class="btn btn-sm" onclick="openEditModal(${c.id})">Edit</button>`:'';
     return`<tr>
-      <td><div style="display:flex;align-items:center;gap:10px;">
-        <div class="avatar av-${c.color}" style="flex-shrink:0;">${c.initials}</div>
-        <div><div class="crew-name">${c.name}</div>
-        <div class="crew-detail">${c.empId} &middot; <a href="mailto:${c.email}">${c.email}</a> &middot; ${c.phone}</div></div>
-      </div></td>
-      <td style="white-space:nowrap;font-size:13px;color:var(--text2);">${shiftLabel}</td>
-      <td>${statusHtml}</td>
-      <td><span class="ot-count" style="color:var(--amber-text)">${mo}</span><span style="font-size:10px;color:var(--text2)"> / ${al}</span></td>
+      <td><div style="display:flex;align-items:center;gap:10px;"><div class="avatar av-${c.color}" style="flex-shrink:0;">${c.initials}</div><div><div class="crew-name">${c.name}</div><div class="crew-detail">${c.empId} &middot; <a href="mailto:${c.email}">${c.email}</a> &middot; ${c.phone}</div></div></div></td>
+      <td style="white-space:nowrap;font-size:13px;">${shiftLabel}</td><td>${statusHtml}</td>
+      <td><span class="mono" style="color:var(--amber-text)">${otMo(c.id)}</span><span style="font-size:10px;color:var(--text2)"> / ${otAll(c.id)}</span></td>
+      <td><span class="mono" style="color:var(--red-text)">${lvMo(c.id)}</span><span style="font-size:10px;color:var(--text2)"> / ${lvAll(c.id)}</span></td>
       <td>${eb}</td></tr>`;
   }).join('');
-  document.getElementById('crewTable').innerHTML=`<table class="ctable">
-    <thead><tr><th>Name</th><th>Shift</th><th>Status</th><th>OT (mo / total)</th><th></th></tr></thead>
-    <tbody>${rows}</tbody></table>`;
+  document.getElementById('crewTable').innerHTML=`<table class="ctable"><thead><tr><th>Name</th><th>Shift</th><th>Status</th><th>OT (mo/all)</th><th>Leave (mo/all)</th><th></th></tr></thead><tbody>${rows}</tbody></table>`;
 }
 
+// PORTAL
 function portalLookup(){
-  const eid=document.getElementById('portalEmpId').value.trim();
-  const c=crewByEmpId(eid);
+  const c=crewByEmpId(document.getElementById('portalEmpId').value);
   document.getElementById('portalErr').style.display=c?'none':'block';
   document.getElementById('portalContent').style.display=c?'':'none';
   if(!c){portalCrewId=null;return;}
   portalCrewId=c.id;
-  const sch=getSchedule(currentDate);
-  const inM=sch.morning.find(e=>e.id===c.id),inE=sch.evening.find(e=>e.id===c.id);
-  const entry=inM||inE||sch.off.find(e=>e.id===c.id)||{status:'off'};
+  const s=getSch(currentDate);
+  const inM=s.morning.find(e=>e.id===c.id),inE=s.evening.find(e=>e.id===c.id),inO=s.off.find(e=>e.id===c.id);
+  const entry=inM||inE||inO||{status:'off'};
   const shift=(inM&&inE)?'Both shifts (Morning + Evening OT)':inM?'Morning (06:00–14:00)':inE?'Evening (14:00–22:00)':'—';
   const myPending=pendingRequests.filter(r=>r.crewId===c.id);
-  const mo=otCountMonth(c.id),al=otCountAll(c.id);
   document.getElementById('portalContent').innerHTML=`
-    <div class="my-status-box">
+    <div class="status-box">
       <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid var(--border);">
         <div class="avatar av-${c.color}" style="width:40px;height:40px;font-size:13px;">${c.initials}</div>
         <div><div style="font-size:15px;font-weight:600;">${c.name}</div><div style="font-size:12px;color:var(--text2);">${c.empId}</div></div>
       </div>
-      <div class="my-status-row"><span style="color:var(--text2);">Today's shift</span><span style="font-weight:600;">${shift}</span></div>
-      <div class="my-status-row"><span style="color:var(--text2);">Status</span>${pill(entry.status)}</div>
-      <div class="my-status-row"><span style="color:var(--text2);">OT this month</span><span class="ot-count" style="color:var(--amber-text)">${mo}</span></div>
-      <div class="my-status-row"><span style="color:var(--text2);">OT all time</span><span class="ot-count" style="color:var(--text2)">${al}</span></div>
+      <div class="status-row"><span style="color:var(--text2);">Today's shift</span><span style="font-weight:600;">${shift}</span></div>
+      <div class="status-row"><span style="color:var(--text2);">Status</span>${pill(entry.status)}</div>
+      <div class="status-row"><span style="color:var(--text2);">OT this month</span><span class="mono" style="color:var(--amber-text)">${otMo(c.id)}</span></div>
+      <div class="status-row"><span style="color:var(--text2);">OT all time</span><span class="mono" style="color:var(--text2)">${otAll(c.id)}</span></div>
+      <div class="status-row"><span style="color:var(--text2);">Leave this month</span><span class="mono" style="color:var(--red-text)">${lvMo(c.id)}</span></div>
+      <div class="status-row"><span style="color:var(--text2);">Leave all time</span><span class="mono" style="color:var(--text2)">${lvAll(c.id)}</span></div>
     </div>
-    ${myPending.length>0?`<div style="margin-bottom:14px;padding:10px 14px;background:var(--purple-bg);border-radius:var(--r);font-size:13px;color:var(--purple-text);"><strong>${myPending.length} pending request(s)</strong> — awaiting admin review</div>`:''}
+    ${myPending.length?`<div style="margin-bottom:14px;padding:10px 14px;background:var(--purple-bg);border-radius:var(--r);font-size:13px;color:var(--purple-text);"><strong>${myPending.length} pending request(s)</strong> — awaiting admin review</div>`:''}
     <button class="btn btn-navy" style="width:100%;text-align:center;" onclick="openRequestModal()">+ Submit a new request</button>`;
   document.getElementById('portalContent').style.display='';
 }
@@ -869,182 +714,137 @@ function openRequestModal(){
   const c=crewById(portalCrewId);
   document.getElementById('reqEmployeeInfo').innerHTML=`<strong>${c.name}</strong> &nbsp;·&nbsp; ${c.empId}`;
   const today=new Date().toISOString().split('T')[0];
-  document.getElementById('reqDate').value=today;
-  document.getElementById('reqDate').min=today;
-  document.getElementById('reqType').value='shift';
-  document.getElementById('reqNote').value='';
+  document.getElementById('reqDate').value=today;document.getElementById('reqDate').min=today;
+  document.getElementById('reqType').value='shift';document.getElementById('reqNote').value='';
   document.getElementById('reqSuccess').style.display='none';
-  document.getElementById('reqShiftGroup').style.display='';
-  updateOTShiftOptions();
-  document.getElementById('requestModal').classList.add('open');
+  updateReqOpts();openModal('requestModal');
 }
-
-function updateOTShiftOptions(){
-  const type=document.getElementById('reqType').value;
-  const dateVal=document.getElementById('reqDate').value;
-  const sg=document.getElementById('reqShiftGroup');
-  if(type!=='ot'&&type!=='shift'){sg.style.display='none';return;}
+function updateReqOpts(){
+  const type=document.getElementById('reqType').value,dateVal=document.getElementById('reqDate').value;
+  const sg=document.getElementById('reqShiftGroup'),sel=document.getElementById('reqShift'),lbl=document.getElementById('reqShiftLabel');
+  if(type==='leave'){sg.style.display='none';return;}
   sg.style.display='';
-  const sel=document.getElementById('reqShift');
   if(type==='ot'&&portalCrewId&&dateVal){
-    const d=new Date(dateVal+'T00:00:00');
-    const reg=getRegularShift(portalCrewId,d);
-    if(reg==='morning'){
-      sel.innerHTML='<option value="evening">Evening shift (14:00 – 22:00) — OT</option>';
-      document.getElementById('reqShiftLabel').textContent='OT shift (your regular is Morning)';
-    }else if(reg==='evening'){
-      sel.innerHTML='<option value="morning">Morning shift (06:00 – 14:00) — OT</option>';
-      document.getElementById('reqShiftLabel').textContent='OT shift (your regular is Evening)';
-    }else{
-      // Not yet assigned — let them pick any
-      sel.innerHTML='<option value="morning">Morning (06:00 – 14:00)</option><option value="evening">Evening (14:00 – 22:00)</option>';
-      document.getElementById('reqShiftLabel').textContent='Preferred OT shift';
-    }
-  }else{
-    sel.innerHTML='<option value="morning">Morning (06:00 – 14:00)</option><option value="evening">Evening (14:00 – 22:00)</option>';
-    document.getElementById('reqShiftLabel').textContent='Preferred shift';
-  }
+    const reg=getRegShift(portalCrewId,new Date(dateVal+'T00:00:00'));
+    if(reg==='morning'){sel.innerHTML='<option value="evening">Evening (14:00–22:00) — OT shift</option>';lbl.textContent='OT shift (your regular is Morning)';}
+    else if(reg==='evening'){sel.innerHTML='<option value="morning">Morning (06:00–14:00) — OT shift</option>';lbl.textContent='OT shift (your regular is Evening)';}
+    else{sel.innerHTML='<option value="morning">Morning (06:00–14:00)</option><option value="evening">Evening (14:00–22:00)</option>';lbl.textContent='Preferred OT shift';}
+  }else{sel.innerHTML='<option value="morning">Morning (06:00–14:00)</option><option value="evening">Evening (14:00–22:00)</option>';lbl.textContent='Preferred shift';}
 }
-
 async function submitRequest(){
-  const type=document.getElementById('reqType').value;
-  const date=document.getElementById('reqDate').value;
-  const note=document.getElementById('reqNote').value.trim();
-  const shift=document.getElementById('reqShift').value;
+  const type=document.getElementById('reqType').value,date=document.getElementById('reqDate').value;
+  const note=document.getElementById('reqNote').value.trim(),shift=document.getElementById('reqShift').value;
   if(!date){alert('Please select a date.');return;}
   const req={crewId:portalCrewId,type,date,note,shift,submittedAt:new Date().toISOString()};
-  if(type==='ot') req.otShift=shift;
-  pendingRequests.push(req);
-  await saveToCloud();
-  document.getElementById('reqSuccess').style.display='';
-  renderSummary();renderRequests();
+  if(type==='ot')req.otShift=shift;
+  pendingRequests.push(req);await saveToCloud();
+  document.getElementById('reqSuccess').style.display='';renderSummary();renderRequests();
   setTimeout(()=>{closeModal('requestModal');portalLookup();},2000);
 }
 
+// ADMIN ASSIGN
 function openAssignModal(){
   document.getElementById('assignTitle').textContent='Assign crew member';
   const sel=document.getElementById('assignPerson');
   sel.innerHTML=CREW.map(c=>`<option value="${c.id}">${c.name}</option>`).join('');
-  sel.disabled=false;sel.dataset.prevStatus='';
+  sel.disabled=false;sel.dataset.prevStatus='';sel.dataset.prevShift='';
   document.getElementById('assignShift').value='morning';
+  onAssignShiftChange();
   document.getElementById('assignStatus').value='duty';
-  document.getElementById('assignModal').classList.add('open');
+  openModal('assignModal');
 }
-
 function openEditModal(id){
-  document.getElementById('assignTitle').textContent='Edit crew assignment';
-  const sch=getSchedule(currentDate);
-  const inM=sch.morning.find(e=>e.id===id),inE=sch.evening.find(e=>e.id===id);
-  const entry=inM||inE||sch.off.find(e=>e.id===id)||{status:'off'};
-  const currentShift=inM?'morning':inE?'evening':'off';
+  const s=getSch(currentDate);
+  const inM=s.morning.find(e=>e.id===id),inE=s.evening.find(e=>e.id===id),inO=s.off.find(e=>e.id===id);
+  const entry=inM||inE||inO||{status:'off'};
+  const curShift=inM?'morning':inE?'evening':'none';
+  document.getElementById('assignTitle').textContent=(inM&&inE)?'Edit assignment (working both shifts)':'Edit crew assignment';
   const sel=document.getElementById('assignPerson');
   sel.innerHTML=CREW.map(c=>`<option value="${c.id}"${c.id===id?' selected':''}>${c.name}</option>`).join('');
-  sel.disabled=true;
-  sel.dataset.prevStatus=entry.status;
-  sel.dataset.prevShift=currentShift;
-  document.getElementById('assignShift').value=currentShift==='off'?'morning':currentShift;
+  sel.disabled=true;sel.dataset.prevStatus=entry.status;sel.dataset.prevShift=curShift;
+  document.getElementById('assignShift').value=curShift;
+  onAssignShiftChange();
   document.getElementById('assignStatus').value=entry.status==='off'?'duty':entry.status;
-  // If they appear in BOTH shifts, show a note
-  const inBoth=sch.morning.find(e=>e.id===id)&&sch.evening.find(e=>e.id===id);
-  document.getElementById('assignTitle').textContent=inBoth
-    ?'Edit crew assignment (working both shifts today)'
-    :'Edit crew assignment';
-  document.getElementById('assignModal').classList.add('open');
+  openModal('assignModal');
 }
-
 async function saveAssign(){
   const personId=parseInt(document.getElementById('assignPerson').value);
   const shift=document.getElementById('assignShift').value;
   const status=document.getElementById('assignStatus').value;
   const prevStatus=document.getElementById('assignPerson').dataset.prevStatus||'';
   const prevShift=document.getElementById('assignPerson').dataset.prevShift||'';
-  const dk=dateKey(currentDate);
-  const sch=getSchedule(currentDate);
+  const dk=dateKey(currentDate),s=getSch(currentDate);
 
-  if(status==='ot'){
-    // OT: add to the selected shift WITHOUT touching the other shift
-    if(shift==='morning'){
-      const ex=sch.morning.find(e=>e.id===personId);
-      if(ex) ex.status='ot'; else sch.morning.push({id:personId,status:'ot'});
-      addOTLog(personId,dk,'morning','(admin assigned)');
-    }else if(shift==='evening'){
-      const ex=sch.evening.find(e=>e.id===personId);
-      if(ex) ex.status='ot'; else sch.evening.push({id:personId,status:'ot'});
-      addOTLog(personId,dk,'evening','(admin assigned)');
-    }
-    // Remove from off/unassigned when OT-assigned
-    sch.off=sch.off.filter(e=>e.id!==personId);
+  if(shift==='none'){
+    // None of the above — leave or dayoff
+    if(prevStatus==='ot'&&prevShift)remOTLog(personId,dk,prevShift);
+    if(prevStatus==='leave')remLeaveLog(personId,dk);
+    s.morning=s.morning.filter(e=>e.id!==personId);
+    s.evening=s.evening.filter(e=>e.id!==personId);
+    s.off=s.off.filter(e=>e.id!==personId);
+    s.off.push({id:personId,status:status==='dayoff'?'dayoff':'leave'});
+    if(status==='leave')addLeaveLog(personId,dk,'(admin assigned)');
+  }else if(status==='ot'){
+    s.off=s.off.filter(e=>e.id!==personId);
+    if(shift==='morning'){const ex=s.morning.find(e=>e.id===personId);if(ex)ex.status='ot';else s.morning.push({id:personId,status:'ot'});addOTLog(personId,dk,'morning','(admin assigned)');}
+    else{const ex=s.evening.find(e=>e.id===personId);if(ex)ex.status='ot';else s.evening.push({id:personId,status:'ot'});addOTLog(personId,dk,'evening','(admin assigned)');}
   }else{
-    // For non-OT changes: if previously OT on this shift, remove that OT log
-    if(prevStatus==='ot'&&prevShift) removeOTLog(personId,dk,prevShift);
-    // Remove from the selected shift only, then re-add with new status
+    if(prevStatus==='ot'&&prevShift)remOTLog(personId,dk,prevShift);
+    if(prevStatus==='leave')remLeaveLog(personId,dk);
     if(shift==='morning'){
-      sch.morning=sch.morning.filter(e=>e.id!==personId);
-      sch.off=sch.off.filter(e=>e.id!==personId);
-      if(status!=='off') sch.morning.push({id:personId,status});
-      else sch.off.push({id:personId,status:'off'});
-    }else if(shift==='evening'){
-      sch.evening=sch.evening.filter(e=>e.id!==personId);
-      sch.off=sch.off.filter(e=>e.id!==personId);
-      if(status!=='off') sch.evening.push({id:personId,status});
-      else sch.off.push({id:personId,status:'off'});
+      s.morning=s.morning.filter(e=>e.id!==personId);s.off=s.off.filter(e=>e.id!==personId);
+      s.morning.push({id:personId,status});if(status==='leave')addLeaveLog(personId,dk,'(admin assigned)');
     }else{
-      // Day off: remove from both shifts and ensure they're in off list
-      sch.morning=sch.morning.filter(e=>e.id!==personId);
-      sch.evening=sch.evening.filter(e=>e.id!==personId);
-      sch.off=sch.off.filter(e=>e.id!==personId);
-      sch.off.push({id:personId,status:'off'});
+      s.evening=s.evening.filter(e=>e.id!==personId);s.off=s.off.filter(e=>e.id!==personId);
+      s.evening.push({id:personId,status});if(status==='leave')addLeaveLog(personId,dk,'(admin assigned)');
     }
   }
   document.getElementById('assignPerson').disabled=false;
-  closeModal('assignModal');
-  await saveToCloud();
-  renderToday();renderOT();
+  closeModal('assignModal');await saveToCloud();renderToday();renderOT();renderLeave();
 }
 
+// AUTH
 function doLogin(){
   if(document.getElementById('pwInput').value===ADMIN_PASS){
     isAdmin=true;closeModal('loginModal');
     document.getElementById('adminBar').style.display='flex';
     document.getElementById('loginBtn').style.display='none';
-    document.getElementById('pwInput').value='';
-    document.getElementById('pwError').style.display='none';
+    document.getElementById('pwInput').value='';document.getElementById('pwError').style.display='none';
     renderToday();
   }else{document.getElementById('pwError').style.display='block';}
 }
 function doLogout(){
-  isAdmin=false;
-  document.getElementById('adminBar').style.display='none';
-  document.getElementById('loginBtn').style.display='';
-  renderToday();renderOT();
+  isAdmin=false;document.getElementById('adminBar').style.display='none';document.getElementById('loginBtn').style.display='';
+  renderToday();renderOT();renderLeave();
 }
-function closeModal(id){
-  document.getElementById(id).classList.remove('open');
-  if(id==='assignModal')document.getElementById('assignPerson').disabled=false;
-}
+
+// MODALS
+function openModal(id){document.getElementById(id).classList.add('open');}
+function closeModal(id){document.getElementById(id).classList.remove('open');if(id==='assignModal')document.getElementById('assignPerson').disabled=false;}
 document.querySelectorAll('.overlay').forEach(el=>el.addEventListener('click',e=>{if(e.target===el)closeModal(el.id);}));
 document.getElementById('pwInput').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
 
+// TABS
 function openTab(tab){
   activeTab=tab;
-  ['today','requests','calendar','ot','crew','portal'].forEach(t=>{
+  ['today','requests','calendar','ot','leave','crew','portal'].forEach(t=>{
     document.getElementById('pane-'+t).style.display=t===tab?'':'none';
-    const b=document.getElementById('tab-btn-'+t);
-    if(b)b.classList.toggle('active',t===tab);
+    const b=document.getElementById('tab-btn-'+t);if(b)b.classList.toggle('active',t===tab);
   });
   if(tab==='calendar')renderCalendar();
   if(tab==='crew')renderCrew();
   if(tab==='ot')renderOT();
+  if(tab==='leave')renderLeave();
   if(tab==='requests')renderRequests();
 }
+function refreshAll(){renderToday();renderRequests();renderOT();renderLeave();if(activeTab==='crew')renderCrew();}
 
-// ─── BOOT ─────────────────────────────────────────────────
+// BOOT
 (async()=>{
-  document.getElementById('loadingMsg').textContent='Connecting to cloud...';
   await loadFromCloud();
   document.getElementById('loadingScreen').style.display='none';
   document.getElementById('mainApp').style.display='';
-  renderToday();renderOT();renderRequests();
+  refreshAll();
 })();
 </script>
 </body>
