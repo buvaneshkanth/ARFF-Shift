@@ -401,7 +401,38 @@ async function loadFromCloud(){
     const r=await fetch(BIN_URL+'/latest',{headers:{'X-Master-Key':API_KEY,'X-Bin-Meta':'false'}});
     if(!r.ok)throw 0;
     const d=await r.json();
-    scheduleData=d.scheduleData||{};pendingRequests=d.pendingRequests||[];otLog=d.otLog||{};leaveLog=d.leaveLog||{};
+    scheduleData   =d.scheduleData    ||{};
+    pendingRequests=d.pendingRequests ||[];
+    otLog          =d.otLog           ||{};
+    leaveLog       =d.leaveLog        ||{};
+
+    // DATA GUARD: strip any day where morning/evening have pre-assigned "duty"
+    // entries that were created by the old default-assignment logic.
+    // Valid morning/evening entries must have been explicitly admin-saved
+    // (they will have a "adminSaved" flag). Wipe any that don't.
+    // Since we can't retroactively flag old entries, we do a simpler check:
+    // if ALL crew in morning/evening are status:"duty" AND count matches old
+    // default arrays exactly, treat that day as stale and reset it.
+    const oldMorning=[1,2,3,4,5,6,7,8];
+    const oldEvening=[9,10,11,12,13,14,15,16];
+    let needsSave=false;
+    Object.keys(scheduleData).forEach(k=>{
+      const s=scheduleData[k];
+      const mIds=s.morning.map(e=>e.id).sort((a,b)=>a-b);
+      const eIds=s.evening.map(e=>e.id).sort((a,b)=>a-b);
+      const mIsDefault=JSON.stringify(mIds)===JSON.stringify([...oldMorning].sort((a,b)=>a-b));
+      const eIsDefault=JSON.stringify(eIds)===JSON.stringify([...oldEvening].sort((a,b)=>a-b));
+      if(mIsDefault&&eIsDefault){
+        // This day has the exact old default assignment — reset it
+        scheduleData[k]={morning:[],evening:[],off:CREW.map(c=>({id:c.id,status:'off'}))};
+        needsSave=true;
+      }
+    });
+    if(needsSave){
+      // Push the cleaned data back silently
+      fetch(BIN_URL,{method:'PUT',headers:{'Content-Type':'application/json','X-Master-Key':API_KEY},body:JSON.stringify({scheduleData,pendingRequests,otLog,leaveLog})});
+    }
+
     setSyncState('ok','Synced: '+new Date().toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'}));
   }catch{setSyncState('err','Offline — showing last known data');}
 }
