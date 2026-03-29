@@ -108,9 +108,6 @@ table.ctable td{padding:10px 8px;border-bottom:1px solid var(--border);vertical-
 .crew-detail{font-size:11px;color:var(--text2);margin-top:2px;}
 .crew-detail a{color:var(--blue-text);text-decoration:none;}
 .ot-count{font-family:'DM Mono',monospace;font-size:13px;font-weight:600;}
-
-/* OT TRACKER */
-.ot-controls{display:flex;align-items:center;gap:12px;margin-bottom:18px;flex-wrap:wrap;}
 .ot-select{padding:7px 12px;border:1px solid var(--border2);border-radius:var(--r);font-size:13px;background:var(--surface);color:var(--text);font-family:'DM Sans',sans-serif;cursor:pointer;}
 .ot-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:12px;}
 .ot-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--rlg);padding:14px 16px;}
@@ -125,8 +122,6 @@ table.ctable td{padding:10px 8px;border-bottom:1px solid var(--border);vertical-
 .ot-num{font-family:'DM Mono',monospace;font-size:11px;font-weight:600;min-width:20px;text-align:right;}
 .ot-view-btn{margin-top:10px;width:100%;text-align:center;padding:5px 0;font-size:11px;border-radius:6px;border:1px solid var(--border2);background:none;cursor:pointer;color:var(--navy);font-weight:600;font-family:'DM Sans',sans-serif;}
 .ot-view-btn:hover{background:var(--surface2);}
-
-/* OT HISTORY MODAL */
 .ot-history-list{max-height:320px;overflow-y:auto;margin-top:4px;}
 .ot-hist-item{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:8px;background:var(--surface2);margin-bottom:6px;}
 .ot-hist-date{font-family:'DM Mono',monospace;font-size:13px;font-weight:600;color:var(--navy);min-width:110px;}
@@ -137,8 +132,6 @@ table.ctable td{padding:10px 8px;border-bottom:1px solid var(--border);vertical-
 .filter-row{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;}
 .filter-chip{padding:4px 12px;border-radius:20px;border:1px solid var(--border2);font-size:12px;cursor:pointer;background:var(--surface2);color:var(--text2);font-family:'DM Sans',sans-serif;}
 .filter-chip.active{background:var(--navy);color:#fff;border-color:var(--navy);}
-
-/* PORTAL */
 .portal-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--rlg);padding:20px;max-width:480px;margin:0 auto;}
 .portal-header{text-align:center;margin-bottom:20px;}
 .portal-header h2{font-size:18px;font-weight:600;}
@@ -157,10 +150,38 @@ textarea.fi{resize:vertical;min-height:72px;}
 .mactions{display:flex;gap:10px;justify-content:flex-end;margin-top:20px;}
 .errmsg{color:var(--red-text);font-size:12px;margin-top:5px;}
 .success-msg{color:var(--green-text);font-size:13px;text-align:center;padding:12px;background:var(--green-bg);border-radius:var(--r);margin-top:12px;font-weight:500;}
+
+/* SYNC UI */
+.sync-bar{display:flex;align-items:center;gap:8px;padding:8px 14px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r);margin-bottom:14px;font-size:12px;color:var(--text2);}
+.sync-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.sync-dot.ok{background:var(--green-text);}
+.sync-dot.syncing{background:var(--amber-text);animation:pulse 1s infinite;}
+.sync-dot.err{background:var(--red-text);}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.3;}}
+.loading-screen{position:fixed;inset:0;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:999;gap:16px;}
+.loading-screen .logo-big{width:64px;height:64px;background:var(--navy);border-radius:16px;display:flex;align-items:center;justify-content:center;}
+.loading-screen .logo-big svg{width:38px;height:38px;}
+.loading-screen p{font-size:14px;color:var(--text2);}
+.spinner{width:24px;height:24px;border:3px solid var(--border2);border-top-color:var(--navy);border-radius:50%;animation:spin 0.7s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
 </style>
 </head>
 <body>
-<div class="page">
+
+<!-- LOADING SCREEN -->
+<div class="loading-screen" id="loadingScreen">
+  <div class="logo-big">
+    <svg viewBox="0 0 24 24" fill="none">
+      <path d="M3 18l4-8 4 4 4-6 4 10" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="19" cy="5" r="2" fill="#f90"/>
+    </svg>
+  </div>
+  <div style="font-size:18px;font-weight:600;">ARFF Shift Management</div>
+  <div class="spinner"></div>
+  <p id="loadingMsg">Loading latest data...</p>
+</div>
+
+<div class="page" id="mainApp" style="display:none;">
   <div class="header">
     <div class="logo">
       <svg viewBox="0 0 24 24" fill="none">
@@ -182,6 +203,13 @@ textarea.fi{resize:vertical;min-height:72px;}
     <div class="admin-dot"></div>
     <span>Admin mode active — approve requests &amp; finalize allocations</span>
     <button class="btn btn-red btn-sm" onclick="doLogout()">Logout</button>
+  </div>
+
+  <!-- SYNC STATUS BAR -->
+  <div class="sync-bar" id="syncBar">
+    <div class="sync-dot ok" id="syncDot"></div>
+    <span id="syncMsg">Data synced — all crew see the same roster</span>
+    <button class="btn btn-sm" style="margin-left:auto;" onclick="loadFromCloud()">Refresh</button>
   </div>
 
   <div class="summary-grid" id="summaryGrid"></div>
@@ -243,7 +271,6 @@ textarea.fi{resize:vertical;min-height:72px;}
         <div style="font-size:12px;color:var(--text2);margin-top:2px;">Click "View dates" on any card to see full OT history</div>
       </div>
       <div style="display:flex;align-items:center;gap:8px;">
-        <label style="font-size:12px;color:var(--text2);font-weight:500;">Filter:</label>
         <select class="ot-select" id="otFilter" onchange="renderOT()">
           <option value="all">All crew</option>
           <option value="hasOT">Has OT only</option>
@@ -338,18 +365,18 @@ textarea.fi{resize:vertical;min-height:72px;}
     <div style="background:var(--surface2);border-radius:var(--r);padding:10px 14px;margin-bottom:16px;font-size:13px;" id="reqEmployeeInfo"></div>
     <div class="fg">
       <label class="fl">Date</label>
-      <input type="date" class="fi" id="reqDate">
+      <input type="date" class="fi" id="reqDate" onchange="updateOTShiftOptions()">
     </div>
     <div class="fg">
       <label class="fl">Request type</label>
-      <select class="fi" id="reqType" onchange="document.getElementById('reqShiftGroup').style.display=this.value==='shift'?'':'none'">
+      <select class="fi" id="reqType" onchange="updateOTShiftOptions()">
         <option value="shift">Preferred shift change</option>
         <option value="leave">Leave request</option>
-        <option value="ot">Overtime request</option>
+        <option value="ot">Overtime request (work both shifts)</option>
       </select>
     </div>
     <div class="fg" id="reqShiftGroup">
-      <label class="fl">Preferred shift</label>
+      <label class="fl" id="reqShiftLabel">Preferred shift</label>
       <select class="fi" id="reqShift">
         <option value="morning">Morning (06:00 – 14:00)</option>
         <option value="evening">Evening (14:00 – 22:00)</option>
@@ -367,7 +394,7 @@ textarea.fi{resize:vertical;min-height:72px;}
   </div>
 </div>
 
-<!-- OT HISTORY MODAL (admin only) -->
+<!-- OT HISTORY MODAL -->
 <div class="overlay" id="otHistModal">
   <div class="modal" style="width:500px;">
     <div style="display:flex;align-items:center;gap:12px;margin-bottom:6px;">
@@ -385,12 +412,9 @@ textarea.fi{resize:vertical;min-height:72px;}
         <div style="font-family:'DM Mono',monospace;font-size:20px;font-weight:600;color:var(--text2);" id="otHistAll">0</div>
       </div>
     </div>
-
     <div class="filter-row" id="otHistFilters"></div>
-
     <div style="font-size:12px;color:var(--text2);margin-bottom:8px;" id="otHistCount"></div>
     <div class="ot-history-list" id="otHistList"></div>
-
     <div class="mactions" style="margin-top:16px;">
       <button class="btn btn-navy" onclick="closeModal('otHistModal')">Close</button>
     </div>
@@ -398,49 +422,109 @@ textarea.fi{resize:vertical;min-height:72px;}
 </div>
 
 <script>
-const ADMIN_PASS="Admin@2026#";
-const MONTHS=["January","February","March","April","May","June","July","August","September","October","November","December"];
+// ─── CONFIG ───────────────────────────────────────────────
+const BIN_ID  = '69c93d9e5fdde574550f68c3';
+const API_KEY = '$2a$10$/Qf5YRKzzhmmpvfSnZtkIeqVUKFr7MoMTb9.AvmgIBuFOMBUM910G';
+const BIN_URL = `https://api.jsonbin.io/v3/b/${BIN_ID}`;
+const ADMIN_PASS = 'Admin@2026#';
+const MONTHS = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+// Auto-refresh every 60 seconds so all viewers stay in sync
+const AUTO_REFRESH_MS = 60000;
 
-const CREW=[
-  {id:1,  empId:"10001837",name:"Amal Prasanth M",      email:"amalprasanth@aai.aero",phone:"8590121581"},
-  {id:2,  empId:"10007897",name:"Anbu Y",               email:"anbu@aai.aero",         phone:"9400274782"},
-  {id:3,  empId:"10024413",name:"Arjun M",              email:"arjun.m@aai.aero",      phone:"9188363616"},
-  {id:4,  empId:"10001266",name:"Athul Sasidhar G S",   email:"athulgs@aai.aero",      phone:"9567606500"},
-  {id:5,  empId:"10022357",name:"Bijukumar N R",        email:"bijukn@aai.aero",       phone:"9446102101"},
-  {id:6,  empId:"10024456",name:"Buvanesh Kanth S",     email:"buvanesh.s@aai.aero",   phone:"9360206605"},
-  {id:7,  empId:"10022342",name:"G S Neelakantapillai", email:"neelakandap@aai.aero",  phone:"9447464614"},
-  {id:8,  empId:"10001836",name:"G Vasanth",            email:"gvasanth@aai.aero",     phone:"9047473735"},
-  {id:9,  empId:"10001412",name:"M Balasubramaniam",    email:"mbala@aai.aero",        phone:"9952289736"},
-  {id:10, empId:"10015265",name:"Manulal A S",          email:"manulal@aai.aero",      phone:"9847771613"},
-  {id:11, empId:"10014499",name:"Pramod Jacob",         email:"pjacob@aai.aero",       phone:"9446900135"},
-  {id:12, empId:"10013871",name:"R Rajamohan",          email:"rajamohan@aai.aero",    phone:"8281001219"},
-  {id:13, empId:"10003489",name:"R Sudhar Singh",       email:"sudharsingh@aai.aero",  phone:"9946427284"},
-  {id:14, empId:"10014500",name:"S Jeyaraman",          email:"jeyaramans@aai.aero",   phone:"9447089303"},
-  {id:15, empId:"10007914",name:"S R Sen",              email:"sensr@aai.aero",        phone:"9744355682"},
-  {id:16, empId:"10012985",name:"S Thilakar",           email:"thilakar@aai.aero",     phone:"9245732814"},
-  {id:17, empId:"10007971",name:"Shaji R A",            email:"shaji@aai.aero",        phone:"7708501875"},
-  {id:18, empId:"10007998",name:"Shamnad M R",          email:"shamnad@aai.aero",      phone:"8891166836"},
-  {id:19, empId:"10024468",name:"Vijeesh Jith V P",     email:"vijeesh.p@aai.aero",    phone:"8592942314"},
+// ─── CREW ─────────────────────────────────────────────────
+const CREW = [
+  {id:1,  empId:"10001837", name:"Amal Prasanth M",      email:"amalprasanth@aai.aero", phone:"8590121581"},
+  {id:2,  empId:"10007897", name:"Anbu Y",               email:"anbu@aai.aero",          phone:"9400274782"},
+  {id:3,  empId:"10024413", name:"Arjun M",              email:"arjun.m@aai.aero",       phone:"9188363616"},
+  {id:4,  empId:"10001266", name:"Athul Sasidhar G S",   email:"athulgs@aai.aero",       phone:"9567606500"},
+  {id:5,  empId:"10022357", name:"Bijukumar N R",        email:"bijukn@aai.aero",        phone:"9446102101"},
+  {id:6,  empId:"10024456", name:"Buvanesh Kanth S",     email:"buvanesh.s@aai.aero",    phone:"9360206605"},
+  {id:7,  empId:"10022342", name:"G S Neelakantapillai", email:"neelakandap@aai.aero",   phone:"9447464614"},
+  {id:8,  empId:"10001836", name:"G Vasanth",            email:"gvasanth@aai.aero",      phone:"9047473735"},
+  {id:9,  empId:"10001412", name:"M Balasubramaniam",    email:"mbala@aai.aero",         phone:"9952289736"},
+  {id:10, empId:"10015265", name:"Manulal A S",          email:"manulal@aai.aero",       phone:"9847771613"},
+  {id:11, empId:"10014499", name:"Pramod Jacob",         email:"pjacob@aai.aero",        phone:"9446900135"},
+  {id:12, empId:"10013871", name:"R Rajamohan",          email:"rajamohan@aai.aero",     phone:"8281001219"},
+  {id:13, empId:"10003489", name:"R Sudhar Singh",       email:"sudharsingh@aai.aero",   phone:"9946427284"},
+  {id:14, empId:"10014500", name:"S Jeyaraman",          email:"jeyaramans@aai.aero",    phone:"9447089303"},
+  {id:15, empId:"10007914", name:"S R Sen",              email:"sensr@aai.aero",         phone:"9744355682"},
+  {id:16, empId:"10012985", name:"S Thilakar",           email:"thilakar@aai.aero",      phone:"9245732814"},
+  {id:17, empId:"10007971", name:"Shaji R A",            email:"shaji@aai.aero",         phone:"7708501875"},
+  {id:18, empId:"10007998", name:"Shamnad M R",          email:"shamnad@aai.aero",       phone:"8891166836"},
+  {id:19, empId:"10024468", name:"Vijeesh Jith V P",     email:"vijeesh.p@aai.aero",     phone:"8592942314"},
 ];
 CREW.forEach((c,i)=>{c.color=i%4;c.initials=c.name.split(' ').map(w=>w[0]).slice(0,2).join('').toUpperCase();});
 
 const defaultMorning=[1,2,3,4,5,6,7,8];
 const defaultEvening=[9,10,11,12,13,14,15,16];
 
+// ─── STATE ────────────────────────────────────────────────
 let isAdmin=false;
 let currentDate=new Date(); currentDate.setHours(0,0,0,0);
 let calViewDate=new Date(currentDate);
 let scheduleData={};
 let pendingRequests=[];
-// otLog: { crewId: [{date, shift, note, approvedBy}] }
 let otLog={};
 let activeTab='today';
 let portalCrewId=null;
-let otHistFilterMonth='all';
+let isSaving=false;
 
+// ─── JSONBIN CLOUD SYNC ───────────────────────────────────
+async function loadFromCloud(){
+  setSyncState('syncing','Loading latest data...');
+  try{
+    const res=await fetch(BIN_URL+'/latest',{
+      headers:{'X-Master-Key':API_KEY,'X-Bin-Meta':'false'}
+    });
+    if(!res.ok) throw new Error('Fetch failed');
+    const data=await res.json();
+    scheduleData   = data.scheduleData    || {};
+    pendingRequests= data.pendingRequests || [];
+    otLog          = data.otLog           || {};
+    const now=new Date();
+    setSyncState('ok','Last synced: '+now.toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'}));
+    return true;
+  }catch(e){
+    setSyncState('err','Could not reach cloud — showing last known data');
+    return false;
+  }
+}
+
+async function saveToCloud(){
+  if(isSaving) return;
+  isSaving=true;
+  setSyncState('syncing','Saving...');
+  try{
+    const res=await fetch(BIN_URL,{
+      method:'PUT',
+      headers:{'Content-Type':'application/json','X-Master-Key':API_KEY},
+      body:JSON.stringify({scheduleData,pendingRequests,otLog})
+    });
+    if(!res.ok) throw new Error('Save failed');
+    const now=new Date();
+    setSyncState('ok','Saved at '+now.toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'}));
+  }catch(e){
+    setSyncState('err','Save failed — check your connection');
+  }finally{isSaving=false;}
+}
+
+function setSyncState(state,msg){
+  const dot=document.getElementById('syncDot');
+  const txt=document.getElementById('syncMsg');
+  dot.className='sync-dot '+state;
+  txt.textContent=msg;
+}
+
+// Auto-refresh for crew members (read-only poll)
+setInterval(()=>{
+  if(!isAdmin) loadFromCloud().then(()=>{renderToday();renderRequests();});
+}, AUTO_REFRESH_MS);
+
+// ─── HELPERS ──────────────────────────────────────────────
 function dateKey(d){return d.toISOString().split('T')[0];}
 function crewById(id){return CREW.find(c=>c.id===id);}
 function crewByEmpId(eid){return CREW.find(c=>c.empId===eid.trim());}
+function currentMonthKey(){const n=new Date();return`${n.getFullYear()}-${String(n.getMonth()+1).padStart(2,'0')}`;}
 
 function getSchedule(d){
   const k=dateKey(d);
@@ -454,33 +538,40 @@ function getSchedule(d){
   return scheduleData[k];
 }
 
-function currentMonthKey(){
-  const n=new Date();
-  return `${n.getFullYear()}-${String(n.getMonth()+1).padStart(2,'0')}`;
-}
-
 function getOTLogs(crewId){return otLog[crewId]||[];}
-
-function addOTLog(crewId,date,shift,note){
-  if(!otLog[crewId]) otLog[crewId]=[];
-  otLog[crewId].push({date,shift,note:note||''});
-  otLog[crewId].sort((a,b)=>b.date.localeCompare(a.date));
-}
-
-function removeLastOTLog(crewId,date){
-  if(!otLog[crewId]) return;
-  const idx=otLog[crewId].findIndex(l=>l.date===date);
-  if(idx>=0) otLog[crewId].splice(idx,1);
-}
-
-function otCountMonth(crewId){
-  const mk=currentMonthKey();
-  return getOTLogs(crewId).filter(l=>l.date.startsWith(mk)).length;
-}
+function otCountMonth(crewId){const mk=currentMonthKey();return getOTLogs(crewId).filter(l=>l.date.startsWith(mk)).length;}
 function otCountAll(crewId){return getOTLogs(crewId).length;}
 
+// Each OT log entry is unique per date+shift combination
+function addOTLog(crewId,date,shift,note){
+  if(!otLog[crewId])otLog[crewId]=[];
+  if(!otLog[crewId].find(l=>l.date===date&&l.shift===shift)){
+    otLog[crewId].push({date,shift,note:note||''});
+    otLog[crewId].sort((a,b)=>b.date.localeCompare(a.date)||a.shift.localeCompare(b.shift));
+  }
+}
+function removeOTLog(crewId,date,shift){
+  if(!otLog[crewId])return;
+  // if shift specified remove that specific one, else remove any for that date
+  otLog[crewId]=otLog[crewId].filter(l=>!(l.date===date&&(!shift||l.shift===shift)));
+}
+
+// Returns which shift(s) a crew member is already regularly assigned to on a date
+function getRegularShift(crewId,d){
+  const sch=getSchedule(d);
+  const inM=sch.morning.find(e=>e.id===crewId&&e.status!=='ot');
+  const inE=sch.evening.find(e=>e.id===crewId&&e.status!=='ot');
+  if(inM&&inE) return 'both';
+  if(inM) return 'morning';
+  if(inE) return 'evening';
+  return 'none';
+}
+
+// Returns the opposite shift for OT purposes
+function otherShift(shift){return shift==='morning'?'evening':'morning';}
+
 function pill(s){
-  return ({
+  return({
     duty:'<span class="pill p-duty">On duty</span>',
     leave:'<span class="pill p-leave">On leave</span>',
     ot:'<span class="pill p-ot">Overtime</span>',
@@ -499,6 +590,7 @@ function crewItemHtml(entry,editable){
   </div>`;
 }
 
+// ─── RENDER FUNCTIONS ─────────────────────────────────────
 function renderSummary(){
   const sch=getSchedule(currentDate);
   const all=[...sch.morning,...sch.evening,...sch.off];
@@ -568,7 +660,7 @@ function renderRequests(){
   }).join('')+'</div>';
 }
 
-function approveRequest(i){
+async function approveRequest(i){
   if(!isAdmin)return;
   const r=pendingRequests[i];
   const d=new Date(r.date+'T00:00:00');
@@ -578,17 +670,27 @@ function approveRequest(i){
   sch.off=sch.off.filter(e=>e.id!==r.crewId);
   if(r.type==='leave'){
     sch.off.push({id:r.crewId,status:'leave'});
-  } else if(r.type==='ot'){
-    sch.morning.push({id:r.crewId,status:'ot'});
-    addOTLog(r.crewId,r.date,'morning',r.note);
-  } else if(r.type==='shift'){
-    if(r.shift==='morning') sch.morning.push({id:r.crewId,status:'duty'});
+  }else if(r.type==='ot'){
+    // Add to the OT shift WITHOUT removing from regular shift
+    const otShift=r.otShift||'evening';
+    if(otShift==='morning'&&!sch.morning.find(e=>e.id===r.crewId))
+      sch.morning.push({id:r.crewId,status:'ot'});
+    if(otShift==='evening'&&!sch.evening.find(e=>e.id===r.crewId))
+      sch.evening.push({id:r.crewId,status:'ot'});
+    addOTLog(r.crewId,r.date,otShift,r.note);
+  }else if(r.type==='shift'){
+    if(r.shift==='morning')sch.morning.push({id:r.crewId,status:'duty'});
     else sch.evening.push({id:r.crewId,status:'duty'});
   }
   pendingRequests.splice(i,1);
+  await saveToCloud();
   renderRequests();renderToday();renderOT();
 }
-function rejectRequest(i){pendingRequests.splice(i,1);renderRequests();renderSummary();}
+async function rejectRequest(i){
+  pendingRequests.splice(i,1);
+  await saveToCloud();
+  renderRequests();renderSummary();
+}
 
 function renderCalendar(){
   const y=calViewDate.getFullYear(),m=calViewDate.getMonth();
@@ -613,38 +715,29 @@ function renderOT(){
   const filter=document.getElementById('otFilter').value;
   const sort=document.getElementById('otSort').value;
   let crew=[...CREW];
-  if(filter==='hasOT') crew=crew.filter(c=>otCountAll(c.id)>0);
-  if(sort==='month') crew.sort((a,b)=>otCountMonth(b.id)-otCountMonth(a.id));
-  else if(sort==='alltime') crew.sort((a,b)=>otCountAll(b.id)-otCountAll(a.id));
+  if(filter==='hasOT')crew=crew.filter(c=>otCountAll(c.id)>0);
+  if(sort==='month')crew.sort((a,b)=>otCountMonth(b.id)-otCountMonth(a.id));
+  else if(sort==='alltime')crew.sort((a,b)=>otCountAll(b.id)-otCountAll(a.id));
   else crew.sort((a,b)=>a.name.localeCompare(b.name));
-
   const maxM=Math.max(1,...crew.map(c=>otCountMonth(c.id)));
   const maxA=Math.max(1,...crew.map(c=>otCountAll(c.id)));
-
   document.getElementById('otGrid').innerHTML=crew.map(c=>{
     const mo=otCountMonth(c.id),al=otCountAll(c.id);
     const mPct=Math.round((mo/maxM)*100);
     const aPct=Math.round((al/maxA)*100);
-    const viewBtn=isAdmin?`<button class="ot-view-btn" onclick="openOTHistory(${c.id})">View OT dates (${al} total)</button>`:'';
+    const vb=isAdmin?`<button class="ot-view-btn" onclick="openOTHistory(${c.id})">View OT dates (${al} total)</button>`:'';
     return`<div class="ot-card">
       <div class="ot-card-header">
         <div class="avatar av-${c.color}" style="width:36px;height:36px;font-size:11px;flex-shrink:0;">${c.initials}</div>
-        <div class="ot-bars">
-          <div class="ot-name">${c.name}</div>
-          <div class="ot-empid">${c.empId}</div>
-        </div>
+        <div class="ot-bars"><div class="ot-name">${c.name}</div><div class="ot-empid">${c.empId}</div></div>
       </div>
-      <div class="ot-row">
-        <div class="ot-row-label">This month</div>
+      <div class="ot-row"><div class="ot-row-label">This month</div>
         <div class="ot-bar-wrap"><div class="ot-bar" style="width:${mPct}%;background:var(--amber-border);"></div></div>
-        <div class="ot-num" style="color:var(--amber-text)">${mo}</div>
-      </div>
-      <div class="ot-row">
-        <div class="ot-row-label">All time</div>
+        <div class="ot-num" style="color:var(--amber-text)">${mo}</div></div>
+      <div class="ot-row"><div class="ot-row-label">All time</div>
         <div class="ot-bar-wrap"><div class="ot-bar" style="width:${aPct}%;background:var(--navy);opacity:0.45;"></div></div>
-        <div class="ot-num" style="color:var(--text2)">${al}</div>
-      </div>
-      ${viewBtn}
+        <div class="ot-num" style="color:var(--text2)">${al}</div></div>
+      ${vb}
     </div>`;
   }).join('');
 }
@@ -653,8 +746,6 @@ function openOTHistory(crewId){
   if(!isAdmin)return;
   const c=crewById(crewId);
   const logs=getOTLogs(crewId);
-  otHistFilterMonth='all';
-
   document.getElementById('otHistAvatar').className=`avatar av-${c.color}`;
   document.getElementById('otHistAvatar').style.cssText='width:38px;height:38px;font-size:12px;flex-shrink:0;';
   document.getElementById('otHistAvatar').textContent=c.initials;
@@ -662,58 +753,42 @@ function openOTHistory(crewId){
   document.getElementById('otHistSub').textContent=c.empId+' · '+c.email;
   document.getElementById('otHistMonth').textContent=otCountMonth(crewId);
   document.getElementById('otHistAll').textContent=otCountAll(crewId);
-
-  // build month filters from available logs
   const monthsPresent=[...new Set(logs.map(l=>l.date.substring(0,7)))].sort((a,b)=>b.localeCompare(a));
-  const filterHtml='<button class="filter-chip active" onclick="setOTHistFilter(\'all\',this)">All time</button>'+
-    monthsPresent.map(mk=>{
-      const [y,m]=mk.split('-');
-      return`<button class="filter-chip" onclick="setOTHistFilter('${mk}',this)">${MONTHS[parseInt(m)-1]} ${y}</button>`;
-    }).join('');
-  document.getElementById('otHistFilters').innerHTML=filterHtml;
+  document.getElementById('otHistFilters').innerHTML=
+    '<button class="filter-chip active" onclick="setOTHistFilter(\'all\',this)">All time</button>'+
+    monthsPresent.map(mk=>{const[y,m]=mk.split('-');return`<button class="filter-chip" onclick="setOTHistFilter('${mk}',this)">${MONTHS[parseInt(m)-1]} ${y}</button>`;}).join('');
   document.getElementById('otHistFilters').dataset.crewId=crewId;
-
   renderOTHistList(crewId,'all');
   document.getElementById('otHistModal').classList.add('open');
 }
-
 function setOTHistFilter(month,btn){
   document.querySelectorAll('#otHistFilters .filter-chip').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
   const crewId=parseInt(document.getElementById('otHistFilters').dataset.crewId);
   renderOTHistList(crewId,month);
 }
-
 function renderOTHistList(crewId,filterMonth){
   const logs=getOTLogs(crewId);
   const filtered=filterMonth==='all'?logs:logs.filter(l=>l.date.startsWith(filterMonth));
   document.getElementById('otHistCount').textContent=`Showing ${filtered.length} overtime shift${filtered.length!==1?'s':''}`;
-
   if(filtered.length===0){
     document.getElementById('otHistList').innerHTML=`<div style="text-align:center;padding:28px;color:var(--text2);font-size:13px;">No overtime shifts recorded${filterMonth!=='all'?' for this month':''}.</div>`;
     return;
   }
-
-  // group by month
   const groups={};
-  filtered.forEach(l=>{
-    const mk=l.date.substring(0,7);
-    if(!groups[mk])groups[mk]=[];
-    groups[mk].push(l);
-  });
-
-  const shiftLabel={morning:'Morning (06:00–14:00)',evening:'Evening (14:00–22:00)'};
+  filtered.forEach(l=>{const mk=l.date.substring(0,7);if(!groups[mk])groups[mk]=[];groups[mk].push(l);});
+  const sl={morning:'Morning (06:00–14:00)',evening:'Evening (14:00–22:00)'};
   let html='';
   Object.keys(groups).sort((a,b)=>b.localeCompare(a)).forEach(mk=>{
-    const [y,m]=mk.split('-');
+    const[y,m]=mk.split('-');
     html+=`<div class="ot-month-group">${MONTHS[parseInt(m)-1]} ${y} <span style="font-weight:400;color:var(--text3);">(${groups[mk].length} shift${groups[mk].length!==1?'s':''})</span></div>`;
     groups[mk].forEach(l=>{
       const dateObj=new Date(l.date+'T00:00:00');
-      const formatted=dateObj.toLocaleDateString('en-IN',{weekday:'short',day:'numeric',month:'short',year:'numeric'});
+      const fmt=dateObj.toLocaleDateString('en-IN',{weekday:'short',day:'numeric',month:'short',year:'numeric'});
       html+=`<div class="ot-hist-item">
-        <div class="ot-hist-date">${formatted}</div>
-        <div class="ot-hist-shift">${shiftLabel[l.shift]||l.shift||'—'}</div>
-        ${l.note?`<div class="ot-hist-note">"${l.note}"</div>`:'<div class="ot-hist-note"></div>'}
+        <div class="ot-hist-date">${fmt}</div>
+        <div class="ot-hist-shift">${sl[l.shift]||l.shift||'—'}</div>
+        ${l.note?`<div class="ot-hist-note">"${l.note}"</div>`:'<div></div>'}
       </div>`;
     });
   });
@@ -723,10 +798,26 @@ function renderOTHistList(crewId,filterMonth){
 function renderCrew(){
   const q=(document.getElementById('crewSearch').value||'').toLowerCase();
   const sch=getSchedule(currentDate);
-  const allE=[...sch.morning.map(e=>({...e,shift:'Morning'})),...sch.evening.map(e=>({...e,shift:'Evening'})),...sch.off.map(e=>({...e,shift:'Day off'}))];
+  const allE=[
+    ...sch.morning.map(e=>({...e,shift:'Morning'})),
+    ...sch.evening.map(e=>({...e,shift:'Evening'})),
+    ...sch.off.map(e=>({...e,shift:'Day off'}))
+  ];
+  // Detect double-shift employees
   const filtered=CREW.filter(c=>c.name.toLowerCase().includes(q)||c.empId.includes(q)||c.email.toLowerCase().includes(q)||c.phone.includes(q));
   const rows=filtered.map(c=>{
-    const entry=allE.find(e=>e.id===c.id)||{status:'off',shift:'Day off'};
+    const inM=sch.morning.find(e=>e.id===c.id);
+    const inE=sch.evening.find(e=>e.id===c.id);
+    const inO=sch.off.find(e=>e.id===c.id);
+    let shiftLabel, statusHtml;
+    if(inM&&inE){
+      shiftLabel='<span style="font-size:11px;background:var(--amber-bg);color:var(--amber-text);padding:2px 7px;border-radius:20px;font-weight:600;">Both shifts</span>';
+      statusHtml=`<span class="pill p-duty">On duty</span> <span class="pill p-ot">+OT</span>`;
+    }else{
+      const entry=inM||inE||inO||{status:'off',shift:'Day off'};
+      shiftLabel=inM?'Morning':inE?'Evening':inO?'Day off':'—';
+      statusHtml=pill(entry.status);
+    }
     const mo=otCountMonth(c.id),al=otCountAll(c.id);
     const eb=isAdmin?`<button class="btn btn-sm" onclick="openEditModal(${c.id})">Edit</button>`:'';
     return`<tr>
@@ -735,13 +826,13 @@ function renderCrew(){
         <div><div class="crew-name">${c.name}</div>
         <div class="crew-detail">${c.empId} &middot; <a href="mailto:${c.email}">${c.email}</a> &middot; ${c.phone}</div></div>
       </div></td>
-      <td style="white-space:nowrap;font-size:13px;color:var(--text2);">${entry.shift}</td>
-      <td>${pill(entry.status)}</td>
+      <td style="white-space:nowrap;font-size:13px;color:var(--text2);">${shiftLabel}</td>
+      <td>${statusHtml}</td>
       <td><span class="ot-count" style="color:var(--amber-text)">${mo}</span><span style="font-size:10px;color:var(--text2)"> / ${al}</span></td>
       <td>${eb}</td></tr>`;
   }).join('');
   document.getElementById('crewTable').innerHTML=`<table class="ctable">
-    <thead><tr><th>Name</th><th>Shift</th><th>Status</th><th title="Month / All-time">OT (mo / total)</th><th></th></tr></thead>
+    <thead><tr><th>Name</th><th>Shift</th><th>Status</th><th>OT (mo / total)</th><th></th></tr></thead>
     <tbody>${rows}</tbody></table>`;
 }
 
@@ -755,7 +846,7 @@ function portalLookup(){
   const sch=getSchedule(currentDate);
   const inM=sch.morning.find(e=>e.id===c.id),inE=sch.evening.find(e=>e.id===c.id);
   const entry=inM||inE||sch.off.find(e=>e.id===c.id)||{status:'off'};
-  const shift=inM?'Morning (06:00–14:00)':inE?'Evening (14:00–22:00)':'—';
+  const shift=(inM&&inE)?'Both shifts (Morning + Evening OT)':inM?'Morning (06:00–14:00)':inE?'Evening (14:00–22:00)':'—';
   const myPending=pendingRequests.filter(r=>r.crewId===c.id);
   const mo=otCountMonth(c.id),al=otCountAll(c.id);
   document.getElementById('portalContent').innerHTML=`
@@ -785,16 +876,47 @@ function openRequestModal(){
   document.getElementById('reqNote').value='';
   document.getElementById('reqSuccess').style.display='none';
   document.getElementById('reqShiftGroup').style.display='';
+  updateOTShiftOptions();
   document.getElementById('requestModal').classList.add('open');
 }
 
-function submitRequest(){
+function updateOTShiftOptions(){
+  const type=document.getElementById('reqType').value;
+  const dateVal=document.getElementById('reqDate').value;
+  const sg=document.getElementById('reqShiftGroup');
+  if(type!=='ot'&&type!=='shift'){sg.style.display='none';return;}
+  sg.style.display='';
+  const sel=document.getElementById('reqShift');
+  if(type==='ot'&&portalCrewId&&dateVal){
+    const d=new Date(dateVal+'T00:00:00');
+    const reg=getRegularShift(portalCrewId,d);
+    if(reg==='morning'){
+      sel.innerHTML='<option value="evening">Evening shift (14:00 – 22:00) — OT</option>';
+      document.getElementById('reqShiftLabel').textContent='OT shift (your regular is Morning)';
+    }else if(reg==='evening'){
+      sel.innerHTML='<option value="morning">Morning shift (06:00 – 14:00) — OT</option>';
+      document.getElementById('reqShiftLabel').textContent='OT shift (your regular is Evening)';
+    }else{
+      // Not yet assigned — let them pick any
+      sel.innerHTML='<option value="morning">Morning (06:00 – 14:00)</option><option value="evening">Evening (14:00 – 22:00)</option>';
+      document.getElementById('reqShiftLabel').textContent='Preferred OT shift';
+    }
+  }else{
+    sel.innerHTML='<option value="morning">Morning (06:00 – 14:00)</option><option value="evening">Evening (14:00 – 22:00)</option>';
+    document.getElementById('reqShiftLabel').textContent='Preferred shift';
+  }
+}
+
+async function submitRequest(){
   const type=document.getElementById('reqType').value;
   const date=document.getElementById('reqDate').value;
   const note=document.getElementById('reqNote').value.trim();
   const shift=document.getElementById('reqShift').value;
   if(!date){alert('Please select a date.');return;}
-  pendingRequests.push({crewId:portalCrewId,type,date,note,shift,submittedAt:new Date().toISOString()});
+  const req={crewId:portalCrewId,type,date,note,shift,submittedAt:new Date().toISOString()};
+  if(type==='ot') req.otShift=shift;
+  pendingRequests.push(req);
+  await saveToCloud();
   document.getElementById('reqSuccess').style.display='';
   renderSummary();renderRequests();
   setTimeout(()=>{closeModal('requestModal');portalLookup();},2000);
@@ -815,37 +937,63 @@ function openEditModal(id){
   const sch=getSchedule(currentDate);
   const inM=sch.morning.find(e=>e.id===id),inE=sch.evening.find(e=>e.id===id);
   const entry=inM||inE||sch.off.find(e=>e.id===id)||{status:'off'};
+  const currentShift=inM?'morning':inE?'evening':'off';
   const sel=document.getElementById('assignPerson');
   sel.innerHTML=CREW.map(c=>`<option value="${c.id}"${c.id===id?' selected':''}>${c.name}</option>`).join('');
-  sel.disabled=true;sel.dataset.prevStatus=entry.status;
-  document.getElementById('assignShift').value=inM?'morning':inE?'evening':'off';
+  sel.disabled=true;
+  sel.dataset.prevStatus=entry.status;
+  sel.dataset.prevShift=currentShift;
+  document.getElementById('assignShift').value=currentShift==='off'?'morning':currentShift;
   document.getElementById('assignStatus').value=entry.status==='off'?'duty':entry.status;
+  // If they appear in BOTH shifts, show a note
+  const inBoth=sch.morning.find(e=>e.id===id)&&sch.evening.find(e=>e.id===id);
+  document.getElementById('assignTitle').textContent=inBoth
+    ?'Edit crew assignment (working both shifts today)'
+    :'Edit crew assignment';
   document.getElementById('assignModal').classList.add('open');
 }
 
-function saveAssign(){
+async function saveAssign(){
   const personId=parseInt(document.getElementById('assignPerson').value);
   const shift=document.getElementById('assignShift').value;
   const status=document.getElementById('assignStatus').value;
   const prevStatus=document.getElementById('assignPerson').dataset.prevStatus||'';
+  const prevShift=document.getElementById('assignPerson').dataset.prevShift||'';
   const dk=dateKey(currentDate);
   const sch=getSchedule(currentDate);
-  // handle OT log
-  if(status==='ot'&&prevStatus!=='ot'){
-    const shiftName=shift==='off'?'morning':shift;
-    addOTLog(personId,dk,shiftName,'(admin assigned)');
+
+  if(status==='ot'){
+    // OT: add to the selected shift WITHOUT touching the other shift
+    if(shift==='morning'){
+      const ex=sch.morning.find(e=>e.id===personId);
+      if(ex) ex.status='ot'; else sch.morning.push({id:personId,status:'ot'});
+      addOTLog(personId,dk,'morning','(admin assigned)');
+    }else if(shift==='evening'){
+      const ex=sch.evening.find(e=>e.id===personId);
+      if(ex) ex.status='ot'; else sch.evening.push({id:personId,status:'ot'});
+      addOTLog(personId,dk,'evening','(admin assigned)');
+    }
+  }else{
+    // For non-OT changes: if previously OT on this shift, remove that OT log
+    if(prevStatus==='ot'&&prevShift) removeOTLog(personId,dk,prevShift);
+    // Remove from the selected shift only, then re-add with new status
+    if(shift==='morning'){
+      sch.morning=sch.morning.filter(e=>e.id!==personId);
+      if(status!=='off') sch.morning.push({id:personId,status});
+    }else if(shift==='evening'){
+      sch.evening=sch.evening.filter(e=>e.id!==personId);
+      if(status!=='off') sch.evening.push({id:personId,status});
+    }else{
+      // Day off: remove from both shifts and off list, then add to off
+      sch.morning=sch.morning.filter(e=>e.id!==personId);
+      sch.evening=sch.evening.filter(e=>e.id!==personId);
+      sch.off=sch.off.filter(e=>e.id!==personId);
+      sch.off.push({id:personId,status:'off'});
+    }
   }
-  if(prevStatus==='ot'&&status!=='ot'){
-    removeLastOTLog(personId,dk);
-  }
-  sch.morning=sch.morning.filter(e=>e.id!==personId);
-  sch.evening=sch.evening.filter(e=>e.id!==personId);
-  sch.off=sch.off.filter(e=>e.id!==personId);
-  if(shift==='morning') sch.morning.push({id:personId,status});
-  else if(shift==='evening') sch.evening.push({id:personId,status});
-  else sch.off.push({id:personId,status:'off'});
   document.getElementById('assignPerson').disabled=false;
   closeModal('assignModal');
+  await saveToCloud();
   renderToday();renderOT();
 }
 
@@ -885,7 +1033,14 @@ function openTab(tab){
   if(tab==='requests')renderRequests();
 }
 
-renderToday();renderOT();renderRequests();
+// ─── BOOT ─────────────────────────────────────────────────
+(async()=>{
+  document.getElementById('loadingMsg').textContent='Connecting to cloud...';
+  await loadFromCloud();
+  document.getElementById('loadingScreen').style.display='none';
+  document.getElementById('mainApp').style.display='';
+  renderToday();renderOT();renderRequests();
+})();
 </script>
 </body>
 </html>
