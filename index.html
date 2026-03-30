@@ -691,7 +691,8 @@ function renderHistList(type,crewId,fm){
     groups[mk].forEach(l=>{
       const fmt=new Date(l.date+'T00:00:00').toLocaleDateString('en-IN',{weekday:'short',day:'numeric',month:'short',year:'numeric'});
       const lbl=isOT?`<div class="hist-label">${sl[l.shift]||l.shift||'—'}</div>`:`<div class="hist-label" style="color:var(--red-text);font-weight:600;">On leave</div>`;
-      html+=`<div class="hist-item"><div class="hist-date">${fmt}</div>${lbl}${l.note?`<div class="hist-note">"${l.note}"</div>`:'<div></div>'}</div>`;
+      const delBtn=isAdmin?`<button onclick="deleteHistEntry('${type}',${crewId},'${l.date}','${l.shift||''}')" style="margin-left:auto;padding:2px 8px;font-size:10px;border-radius:6px;border:1px solid var(--red-border);background:var(--red-bg);color:var(--red-text);cursor:pointer;font-family:inherit;">Remove</button>`:'';
+      html+=`<div class="hist-item"><div class="hist-date">${fmt}</div>${lbl}${l.note?`<div class="hist-note">"${l.note}"</div>`:'<div style="flex:1"></div>'}${delBtn}</div>`;
     });
   });
   document.getElementById(pfx+'List').innerHTML=html;
@@ -858,7 +859,30 @@ async function unassignCrew(){
   closeModal('assignModal');await saveToCloud();renderToday();renderOT();renderLeave();
 }
 
-// AUTH
+async function deleteHistEntry(type,crewId,date,shift){
+  if(!isAdmin)return;
+  if(!confirm(`Remove this ${type==='ot'?'overtime':'leave'} entry for ${date}?`))return;
+  if(type==='ot') remOTLog(crewId,date,shift||null);
+  else remLeaveLog(crewId,date);
+  await saveToCloud();
+  // Also fix the schedule for that date if the status still shows OT/leave
+  const d=new Date(date+'T00:00:00'),s=getSch(d);
+  if(type==='ot'){
+    // downgrade OT status to duty on that date for this crew
+    const inM=s.morning.find(e=>e.id===crewId&&e.status==='ot');
+    const inE=s.evening.find(e=>e.id===crewId&&e.status==='ot');
+    if(inM) inM.status='duty';
+    if(inE) inE.status='duty';
+  } else {
+    // remove from leave in off list and put back as unassigned
+    const inO=s.off.find(e=>e.id===crewId&&e.status==='leave');
+    if(inO) inO.status='off';
+  }
+  await saveToCloud();
+  // Refresh the modal
+  openHistModal(type,crewId);
+  renderToday();renderOT();renderLeave();
+}
 function doLogin(){
   if(document.getElementById('pwInput').value===ADMIN_PASS){
     isAdmin=true;closeModal('loginModal');
