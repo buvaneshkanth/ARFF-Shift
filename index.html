@@ -311,7 +311,11 @@ textarea.fi{resize:vertical;min-height:72px;}
       <option value="dayoff">Day off</option>
     </select>
   </div>
-  <div class="mactions"><button class="btn" onclick="closeModal('assignModal')">Cancel</button><button class="btn btn-navy" onclick="saveAssign()">Save</button></div>
+  <div class="mactions">
+    <button class="btn" onclick="closeModal('assignModal')">Cancel</button>
+    <button class="btn btn-red" id="unassignBtn" style="display:none;" onclick="unassignCrew()">Unassign</button>
+    <button class="btn btn-navy" onclick="saveAssign()">Save</button>
+  </div>
 </div></div>
 
 <div class="overlay" id="requestModal"><div class="modal">
@@ -467,7 +471,11 @@ function addOTLog(id,date,shift,note){
   if(!otLog[id])otLog[id]=[];
   if(!otLog[id].find(l=>l.date===date&&l.shift===shift)){otLog[id].push({date,shift,note:note||''});otLog[id].sort((a,b)=>b.date.localeCompare(a.date));}
 }
-function remOTLog(id,date,shift){if(!otLog[id])return;otLog[id]=otLog[id].filter(l=>!(l.date===date&&(!shift||l.shift===shift)));}
+function remOTLog(id,date,shift){
+  if(!otLog[id])return;
+  // if shift is null, remove ALL entries for that date
+  otLog[id]=otLog[id].filter(l=>!(l.date===date&&(shift===null||l.shift===shift)));
+}
 
 // LEAVE LOG
 const getLeaveLogs=id=>leaveLog[id]||[];
@@ -782,6 +790,7 @@ function openAssignModal(){
   document.getElementById('assignShift').value='morning';
   onAssignShiftChange();
   document.getElementById('assignStatus').value='duty';
+  document.getElementById('unassignBtn').style.display='none';
   openModal('assignModal');
 }
 function openEditModal(id){
@@ -796,6 +805,8 @@ function openEditModal(id){
   document.getElementById('assignShift').value=curShift;
   onAssignShiftChange();
   document.getElementById('assignStatus').value=entry.status==='off'?'duty':entry.status;
+  // Show Unassign button only in edit mode — lets admin move anyone back to unassigned cleanly
+  document.getElementById('unassignBtn').style.display='';
   openModal('assignModal');
 }
 async function saveAssign(){
@@ -806,10 +817,11 @@ async function saveAssign(){
   const prevShift=document.getElementById('assignPerson').dataset.prevShift||'';
   const dk=dateKey(currentDate),s=getSch(currentDate);
 
+  // ALWAYS clean up old logs for this date regardless of what's changing
+  remOTLog(personId,dk,null);    // remove any OT log for this date
+  remLeaveLog(personId,dk);      // remove any leave log for this date
+
   if(shift==='none'){
-    // None of the above — leave or dayoff
-    if(prevStatus==='ot'&&prevShift)remOTLog(personId,dk,prevShift);
-    if(prevStatus==='leave')remLeaveLog(personId,dk);
     s.morning=s.morning.filter(e=>e.id!==personId);
     s.evening=s.evening.filter(e=>e.id!==personId);
     s.off=s.off.filter(e=>e.id!==personId);
@@ -820,8 +832,6 @@ async function saveAssign(){
     if(shift==='morning'){const ex=s.morning.find(e=>e.id===personId);if(ex)ex.status='ot';else s.morning.push({id:personId,status:'ot'});addOTLog(personId,dk,'morning','(admin assigned)');}
     else{const ex=s.evening.find(e=>e.id===personId);if(ex)ex.status='ot';else s.evening.push({id:personId,status:'ot'});addOTLog(personId,dk,'evening','(admin assigned)');}
   }else{
-    if(prevStatus==='ot'&&prevShift)remOTLog(personId,dk,prevShift);
-    if(prevStatus==='leave')remLeaveLog(personId,dk);
     if(shift==='morning'){
       s.morning=s.morning.filter(e=>e.id!==personId);s.off=s.off.filter(e=>e.id!==personId);
       s.morning.push({id:personId,status});if(status==='leave')addLeaveLog(personId,dk,'(admin assigned)');
@@ -830,6 +840,20 @@ async function saveAssign(){
       s.evening.push({id:personId,status});if(status==='leave')addLeaveLog(personId,dk,'(admin assigned)');
     }
   }
+  document.getElementById('assignPerson').disabled=false;
+  closeModal('assignModal');await saveToCloud();renderToday();renderOT();renderLeave();
+}
+
+async function unassignCrew(){
+  const personId=parseInt(document.getElementById('assignPerson').value);
+  const dk=dateKey(currentDate),s=getSch(currentDate);
+  // Remove from all shifts and logs for this date
+  s.morning=s.morning.filter(e=>e.id!==personId);
+  s.evening=s.evening.filter(e=>e.id!==personId);
+  s.off=s.off.filter(e=>e.id!==personId);
+  s.off.push({id:personId,status:'off'});
+  remOTLog(personId,dk,null);
+  remLeaveLog(personId,dk);
   document.getElementById('assignPerson').disabled=false;
   closeModal('assignModal');await saveToCloud();renderToday();renderOT();renderLeave();
 }
